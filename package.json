@@ -5,13 +5,13 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "test": "mocha ./Tests/* --exit"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sbenny123/to-do-list-app.git"
   },
-  "author": "susmi-benny",
+  "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/sbenny123/to-do-list-app/issues"
@@ -21,11 +21,6 @@
     "express": "^4.17.1"
   },
   "devDependencies": {
-    "mocha": "^8.2.1",
-    "supertest": "^6.0.1",
     "typescript": "^4.1.3"
-  },
-  "engines": {
-    "node": "12.x"
   }
 }
