@@ -18,7 +18,8 @@
   },
   "homepage": "https://github.com/sbenny123/to-do-list-app#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "mongoose": "^5.11.9"
   },
   "devDependencies": {
     "typescript": "^4.1.3"
