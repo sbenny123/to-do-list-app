@@ -8,10 +8,8 @@ const http = require('http');
 const port = (process.env.PORT || 3000);
 app.set("port", port);
 
-// Create a server instance
+// Create a server instance and listen on port
 let server = http.createServer(app);
-
-// Make the server listen on a port
 server.listen(port);
 
 // Handle errors and success
@@ -45,5 +43,5 @@ function onError(error) {
 
 function onListening() {
 	let bind = pipeOrPort(server.address());
-	console.log(`Listening on ${bind}`);
+	console.log(`Server listening on ${bind}`);
 }
