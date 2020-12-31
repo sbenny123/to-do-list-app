@@ -5,34 +5,29 @@
  */
 
 const express = require('express');
+const path = require('path');
 
+//const listRouter = require('./routes/list.routes');
+//const taskRouter = require('./routes/task.routes');
+//const userRouter = require('./routes/user.routes');
 
-const listRouter = require('./routes/list.routes');
-const taskRouter = require('./routes/task.routes');
-const userRouter = require('./routes/user.routes');
-
-//const bodyParser = require('body-parser');
-
-//const PORT = (process.env.PORT || 3000);
 const app = express();
 
-//require('./config/static-files')(express, app);
 
-// 
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
+// View engine setup
+//app.set('views', path.join(__dirname, 'views'));
+//app.set('view engine', 'pug');
 
-/*// Used to handle reading data from <form> element
-app.use(bodyParser.urlencoded({ extended : true }));
+// Render static files
+//app.use(express.static(path.join(__dirname, 'statics')));
 
-
-app.get('/', (request, response) => {
-    // Show temporary index file for now
-    response.sendFile(__dirname + '/index.html');  
+app.get('/',(req, res) => {
+    res.send('Hello World!');
 });
 
-app.listen(PORT, function() {   
-    console.log("Server is running on port " + PORT)
-});*/
+// Define routes for different parts of the site
+//app.use('/lists', listRouter);
+//app.use('/tasks', taskRouter);
+//app.use('/users', userRouter);
 
 module.exports = app;

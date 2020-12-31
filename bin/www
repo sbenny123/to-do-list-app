@@ -4,44 +4,54 @@ const app = require('../app');
 const http = require('http');
 
 
-// Define port server uses to listen
+// Set port server should listen to
 const port = (process.env.PORT || 3000);
-app.set("port", port);
+app.set('port', port);
 
-// Create a server instance and listen on port
-let server = http.createServer(app);
+// Create server instance and make server listen to specified port
+var server = http.createServer(app);
 server.listen(port);
 
 // Handle errors and success
-server.on("error", onError);
-server.on("listening", onListening);
+server.on('error', onError);
+server.on('listening', onListening);
 
-function pipeOrPort(address) {
-	return typeof address == "string" ? `pipe ${address}` : `port ${address.port}`;
+
+/**
+ * Handles "error" event from HTTP server.
+ */
+ function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  let bind = typeof port === 'string'? 'Pipe ' + port: 'Port ' + port;
+
+  // Show friendly message depending on the listening error
+  switch (error.code) {   
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);    
+      break;
+    
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    
+    default:
+      throw error;
+  }
 }
 
-function onError(error) {
-	if (error.syscall != "listen") {
-		throw error;
-	}
 
-	let bind = pipeOrPort(server.address());
-
-	switch (error.code) {
-		case "EACCES":
-			console.error(`${bind} requires elevated privileges.`);
-			process.exit(1);
-			break;
-		case "EADDRINUSE":
-			console.error(`${bind} is already in use.`);
-			process.exit(1);
-			break;
-		default:
-			throw error;
-	}
-}
+/**
+ * Handles "listening" event from HTTP server.
+ */
 
 function onListening() {
-	let bind = pipeOrPort(server.address());
-	console.log(`Server listening on ${bind}`);
+  let address = server.address();
+  let bind = typeof address === 'string'? 'pipe ' + address : 'port ' + address.port;
+
+  console.log('Server listening on ' + bind);
 }

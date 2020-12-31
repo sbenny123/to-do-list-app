@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "devstart": "nodemon ./bin/www",
-    "test": "mocha"
+    "test": "mocha ./tests"
   },
   "repository": {
     "type": "git",
