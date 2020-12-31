@@ -5,6 +5,7 @@
  */
 
 const express = require('express');
+const bodyParser = require('body-parser'); // to handle reading of form data
 const path = require('path');
 
 //const listRouter = require('./routes/list.routes');
@@ -14,9 +15,11 @@ const path = require('path');
 const app = express();
 
 
+app.use(bodyParser.urlencoded({ extended: true }));
+
 // View engine setup
-//app.set('views', path.join(__dirname, 'views'));
-//app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'public'));
+app.set('view engine', 'pug');
 
 // Render static files
 //app.use(express.static(path.join(__dirname, 'statics')));
