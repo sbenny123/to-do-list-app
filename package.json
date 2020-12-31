@@ -20,7 +20,8 @@
   "homepage": "https://github.com/sbenny123/to-do-list-app#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "mongoose": "^5.11.9"
+    "mongoose": "^5.11.9",
+    "pug": "^3.0.0"
   },
   "devDependencies": {
     "mocha": "^8.2.1",
