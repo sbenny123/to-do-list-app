@@ -1,21 +1,28 @@
 /**
  * The main application file:
+ *  - Sets up application with settings and middleware
  *  - Handles application errors
- *  - Used in showing error pages and logging
  */
 
 const express = require('express');
+
+
+const listRouter = require('./routes/list.routes');
+const taskRouter = require('./routes/task.routes');
+const userRouter = require('./routes/user.routes');
+
 //const bodyParser = require('body-parser');
 
 //const PORT = (process.env.PORT || 3000);
-let app = express();
+const app = express();
 
-require('./config/static-files')(express, app);
+//require('./config/static-files')(express, app);
 
-/*app.set('views', path.join(__dirname, 'views'));
+// 
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-// Used to handle reading data from <form> element
+/*// Used to handle reading data from <form> element
 app.use(bodyParser.urlencoded({ extended : true }));
 
 
