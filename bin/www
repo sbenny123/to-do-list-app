@@ -53,5 +53,5 @@ function onListening() {
   let address = server.address();
   let bind = typeof address === 'string'? 'pipe ' + address : 'port ' + address.port;
 
-  console.log('Server listening on ' + bind);
+  console.log('Server is listening on ' + bind);
 }
