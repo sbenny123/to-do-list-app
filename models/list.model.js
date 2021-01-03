@@ -1,8 +1,9 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const listSchema = mongoose.Schema({
-    _id: mongoose.Schema.Types.ObjectId,
     name: String
+}, {
+    collection: 'lists'
 });
 
-module.exports = mongoose.model("List", listSchema);
+module.exports = mongoose.model('List', listSchema);
