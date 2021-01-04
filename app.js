@@ -15,21 +15,15 @@ const app = express();
 
 const dbConfig = require('./config/database.config');
 
+// Routers
+const listRouter = require('./routes/list.route');
+//const taskRouter = require('./routes/task.route');
+//const userRouter = require('./routes/user.route');
+
 const connectionString = dbConfig.url.replace("<password>", dbConfig.password);
 
-//const listRouter = require('./routes/list.routes');
-//const taskRouter = require('./routes/task.routes');
-//const userRouter = require('./routes/user.routes');
+var db;
 
-
-const List = require('./models/list.model');
-const testList = new List({
-    name: 'A test'
-});
-const Task = require('./models/task.model');
-const testTask = new Task({
-    name: 'Test task'
-});
 
 // Connect to the database
 mongoose.connect(connectionString, {
@@ -37,26 +31,26 @@ mongoose.connect(connectionString, {
     useUnifiedTopology: true
 });
 
-const db = mongoose.connection;
+db = mongoose.connection;
 
-db.once('open', _ => {           
+db.on('open', () => {           
     console.log('Connected to database successfully');  
 });
   
-db.on('error', error => {       
-    console.log('Failed to connect to database: ' + error);    
+db.on('error', (err) => {       
+    console.log('Failed to connect to database: ' + err);    
 });
 
-testList.save(function (error, document) {
-    if (error) console.error(error)
+/*testList.save(function (err, doc) {
+    if (err) console.error(err)
     console.log(document)  
 });
 testTask.save(function (error, document) {
     if (error) console.error(error)
     console.log(document)  
-});
+});*/
 
-
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
@@ -73,9 +67,8 @@ app.set('view engine', 'pug');
 // Render static files
 //app.use(express.static(path.join(__dirname, 'statics')));
 
-app.get('/',(req, res) => {
-    res.send('Hello World!');
-});
+app.use('/', listRouter);
+
 
 
 // Define routes for different parts of the site

@@ -1,27 +1,15 @@
+/**
+ * 
+ */
+
+
+// Module dependencies
 const express = require('express');
-const app = express();
 
-const listRoute = express.Router();
+const router = express.Router(); // Express Router object
+const listController = require('../controllers/list.controller'); // List controller
 
-let listSchema = require('../models/list.model');
 
-listRoute.route('/').get((request, response) => {
-    listSchema.find((error, data) => {
-        if (error) {
-            return next(error)
-        } else {
-            response.json(data)
-        }
-    })
-});
+router.post('/', listController.createList); // to create a list
 
-// Create a list
-listRoute.route('/create-list').post((request, response, next) => {
-    listSchema.create(request.body, (error, data) => {
-        if (error) {
-            return next(error)
-        } else {
-            response.json(data)
-        }
-    })
-})
+module.exports = router;

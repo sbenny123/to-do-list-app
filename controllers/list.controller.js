@@ -1,3 +1,12 @@
-const List = require('../models/list.model');
+/**
+ * CRUD functions for lists
+ */
 
-// Create a list
+const baseController = require('./base.controller');
+const listModel = require('../models/list.model');
+
+
+// Create and save a list
+exports.createList = baseController.create(listModel);
+
+exports.updateList = baseController.update(listModel);
