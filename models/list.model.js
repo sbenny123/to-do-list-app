@@ -1,5 +1,5 @@
 /**
- * Defines shape of a document within the 'lists' collection
+ * Defines shape of a document (instance of model) within the 'lists' collection
  */
 
 const mongoose = require('mongoose');
@@ -11,6 +11,7 @@ const listSchema = new mongoose.Schema({
         unique: true
     }
 });
+
 
 // Compiles the List model
 // Note: Mongoose automatically looks for the plural, lowercased version of the model name

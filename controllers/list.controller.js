@@ -14,3 +14,9 @@ exports.updateList = baseController.update(listModel);
 
 // Delete a list
 exports.deleteList = baseController.delete(listModel);
+
+// Get a list
+exports.getList = baseController.get(listModel);
+
+// Get all lists
+exports.getAllLists = baseController.getAll(listModel);

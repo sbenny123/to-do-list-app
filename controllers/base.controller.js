@@ -11,15 +11,23 @@ exports.create = (Model) => async (req, res, next) => {
             }
         });
 
-    } catch (error) {
-        next(error);
+    } catch (err) {
+        res.status(500).json({
+            status: 'failure',
+            message: err.message,
+            data: {
+                doc
+            }
+        })
+
+        next(err);
     }
 };
 
 exports.update = Model => async (req, res, next) => {
     try {
         const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
-            new: true,
+            new: true, // updated data is returned to function
             runValidators: true
         });
 
@@ -34,8 +42,16 @@ exports.update = Model => async (req, res, next) => {
             }
         });
 
-    } catch (error) {
-        next(error);
+    } catch (err) {
+        res.status(500).json({
+            status: 'failure',
+            message: err.message,
+            data: {
+                doc
+            }
+        })
+
+        next(err);
     }
 };
 
@@ -52,8 +68,16 @@ exports.delete = Model => async (req, res, next) => {
             status: 'success',
             data: null
         });
-    } catch (error) {
-        next(error);
+    } catch (err) {
+        res.status(500).json({
+            status: 'failure',
+            message: err.message,
+            data: {
+                doc
+            }
+        })
+
+        next(err);
     }
 };
 
@@ -72,8 +96,16 @@ exports.get = Model => async (req, res, next) => {
                 doc
             }
         });
-    } catch (error) {
-        next(error);
+    } catch (err) {
+        res.status(500).json({
+            status: 'failure',
+            message: err.message,
+            data: {
+                doc
+            }
+        })
+
+        next(err);
     }
 };
 
@@ -94,8 +126,15 @@ exports.getAll = Model => async (req, res, next) => {
             }
         });
 
-    } catch (error) {
-        next(error);
-    }
+    } catch (err) {
+        res.status(500).json({
+            status: 'failure',
+            message: err.message,
+            data: {
+                doc
+            }
+        })
 
+        next(err);
+    }
 }
