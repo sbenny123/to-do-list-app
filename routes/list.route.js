@@ -11,7 +11,7 @@ const listController = require('../controllers/list.controller'); // List contro
 
 
 // Create a list
-router.post('/list', listController.createList);
+router.post('/lists', listController.createList);
 
 // Update a list
 router.put('/lists/:id', listController.updateList);

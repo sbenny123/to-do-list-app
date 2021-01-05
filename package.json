@@ -12,7 +12,7 @@
     "type": "git",
     "url": "git+https://github.com/sbenny123/to-do-list-app.git"
   },
-  "author": "",
+  "author": "Susmi Benny",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/sbenny123/to-do-list-app/issues"
@@ -30,6 +30,7 @@
     "sinon": "^9.2.2"
   },
   "devDependencies": {
+    "http-errors": "^1.8.0",
     "mocha": "^8.2.1",
     "nodemon": "^2.0.6",
     "should": "^13.2.3",
