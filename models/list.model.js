@@ -8,6 +8,10 @@ const listSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true
+    },
+    user_id: {
+        type: String,
+        required: true
     }
 });
 

@@ -8,9 +8,15 @@ const taskSchema = new mongoose.Schema({
     status: {
         type: Boolean,
         required: true
+    },
+    list_id: {
+        type: String,
+        required: true
+    },
+    user_id: {
+        type: String,
+        required: true
     }
-}, {
-    collection: 'tasks'
 });
 
 module.exports = mongoose.model("Task", taskSchema);

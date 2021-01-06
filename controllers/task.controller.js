@@ -1,8 +1,22 @@
+/**
+ * CRUD functions for tasks
+ */
+
+const taskModel = require('../models/task.model');
 
 
-exports.create = (Model) => async (req, res, next) => {
+// Create and save a task
+exports.createTask = async function(req, res, next) {
     try {
-        const doc = await Model.create(req.body);
+        const data = {
+            name: req.body.name,
+            status: req.body.status,
+            list_id: req.body.list_id,
+            user_id: req.body.user_id
+        };
+
+        const doc = await taskModel.create(data);
+
 
         res.status(201).json({
             status: 'success',
@@ -11,6 +25,8 @@ exports.create = (Model) => async (req, res, next) => {
             }
         });
 
+        res.redirect("/");
+
     } catch (err) {
         res.status(500).json({
             status: 'failure',
@@ -21,19 +37,28 @@ exports.create = (Model) => async (req, res, next) => {
         })
 
         next(err);
+
+        res.redirect("/");
     }
 };
 
-exports.update = Model => async (req, res, next) => {
+
+// Update a task
+exports.updateTask = async function(req, res, next) {
     try {
-        const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
+        const id = req.params.id;
+        const data = {
+            name: req.body.name,
+            status: req.body.status,
+            list_id: req.body.list_id,
+            user_id: req.body.user_id
+        };
+
+        const doc = await taskModel.findByIdAndUpdate(id, data, {
             new: true, // updated data is returned to function
             runValidators: true
         });
 
-        if (!doc) {
-            return next('404', req, res, next);
-        }
 
         res.status(200).json({
             status: 'success',
@@ -56,18 +81,19 @@ exports.update = Model => async (req, res, next) => {
 };
 
 
-exports.delete = Model => async (req, res, next) => {
+// Delete a task
+exports.deleteTask = async function(req, res, next) {
     try {
-        const doc = await Model.findByIdAndDelete(req.params.id);
+        const id = req.params.id;
 
-        if (!doc) {
-            return next('404', req, res, next);
-        }
+        const doc = await taskModel.findByIdAndDelete(id);
+
 
         res.status(204).json({
             status: 'success',
             data: null
         });
+
     } catch (err) {
         res.status(500).json({
             status: 'failure',
@@ -82,13 +108,13 @@ exports.delete = Model => async (req, res, next) => {
 };
 
 
-exports.get = Model => async (req, res, next) => {
+// Get a task
+exports.getTask = async function(req, res, next) {
     try {
-        const doc = await Model.findById(req.params.id);
+        const id = req.params.id;
 
-        if (!doc) {
-            return next('404', req, res, next);
-        }
+        const doc = await taskModel.findById(id);
+
 
         res.status(200).json({
             status: 'success',
@@ -96,6 +122,7 @@ exports.get = Model => async (req, res, next) => {
                 doc
             }
         });
+
     } catch (err) {
         res.status(500).json({
             status: 'failure',
@@ -110,13 +137,10 @@ exports.get = Model => async (req, res, next) => {
 };
 
 
-exports.getAll = Model => async (req, res, next) => {
+// Get all tasks
+exports.getAllTasks = async function(req, res, next) {
     try {
-        const features = new APIFeatures(Model.find(), req.query)
-            .sort()
-            .paginate();
-
-        const doc = await features.query;
+        const doc = await taskModel.find();
 
         res.status(200).json({
             status: 'success',
@@ -137,4 +161,4 @@ exports.getAll = Model => async (req, res, next) => {
 
         next(err);
     }
-}
+};

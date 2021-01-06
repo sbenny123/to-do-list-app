@@ -9,7 +9,8 @@ const listModel = require('../models/list.model');
 exports.createList = async function(req, res, next) {
     try {
         const data = {
-            name: req.body.name
+            name: req.body.name,
+            user_id: req.body.user_id
         };
 
         const doc = await listModel.create(data);
@@ -45,7 +46,8 @@ exports.updateList = async function(req, res, next) {
     try {
         const id = req.params.id;
         const data = {
-            name: req.body.name
+            name: req.body.name,
+            user_id: req.body.user_id
         };
 
         const doc = await listModel.findByIdAndUpdate(id, data, {
