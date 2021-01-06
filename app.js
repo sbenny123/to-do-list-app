@@ -46,7 +46,7 @@ app.use(mongoSanitize({
 
 // Setup view engine
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
+app.set('view engine', 'ejs');
 
 // Render static files
 app.use(express.static(path.join(__dirname, 'public')));

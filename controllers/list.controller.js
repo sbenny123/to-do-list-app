@@ -22,6 +22,8 @@ exports.createList = async function(req, res, next) {
             }
         });
 
+        res.redirect("/");
+
     } catch (err) {
         res.status(500).json({
             status: 'failure',
@@ -32,6 +34,8 @@ exports.createList = async function(req, res, next) {
         })
 
         next(err);
+
+        res.redirect("/");
     }
 };
 
