@@ -11,18 +11,18 @@ const listController = require('../controllers/list.controller'); // List contro
 
 
 // Create a list
-router.post('/lists', listController.createList);
+router.post('/', listController.createList);
 
 // Update a list
-router.put('/lists/:id', listController.updateList);
+router.put('/:id', listController.updateList);
 
 // Delete a list
-router.delete('/lists/:id', listController.deleteList);
+router.delete('/:id', listController.deleteList);
 
 // Get a list
-router.get('/lists/:id', listController.getList);
+router.get('/:id', listController.getList);
 
 // Get all lists
-router.get('/lists', listController.getAllLists);
+router.get('/', listController.getAllLists);
 
 module.exports = router;

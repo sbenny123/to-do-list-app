@@ -2,42 +2,46 @@
  * Tests for list controller, route and CRUD functionality
  */
 
- // Module dependencies
-const expect = require('chai').expect;
-const should = require('should');
+// Module dependencies
 const chai = require('chai');
+const expect = chai.expect;
+const should = chai.should();
 const chaiHttp = require('chai-http');
+const mongoose = require('mongoose');
 
 const app = require('../../app');
 const data = require('../data/modelData.test.json');
 const listRouter = require('../../routes/list.route');
-
+const listModel = require('../../models/list.model');
 
 chai.use(chaiHttp);
-chai.should();
+
 
 describe('List controller and router tests', function() {
     var list = data.collections.lists[0];
     var listId = "";
-   
+  
     // Test for creating list
     it("Should create a list", function(done) {
         chai.request(app)
-            .post('/list')
+            .post('/lists/')
             .send(list)
             .end((err, res) => {
-                res.should.have.status(201);
-                console.log(res.body);
+                const data = res.body.data.doc;
+
+                expect(res.status).to.equal(201);
+                //expect(data).to.have.property("_id");
+               // expect(data).to.have.property("name", "My test list name");
             })
 
             done()
     })
 
 
-    // Test for updating list    
+    /*// Test for updating list    
     it("Should update a list", function(done) {
         chai.request(app)
-            .delete('/list')
+            .put('/lists')
             .send(list)
             .end((err, res) => {
                 res.should.have.status(201);
@@ -82,5 +86,5 @@ describe('List controller and router tests', function() {
             })
 
           done()
-    })
+    })*/
 })

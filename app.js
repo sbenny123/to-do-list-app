@@ -8,6 +8,7 @@
 const bodyParser = require('body-parser'); // to handle reading of form data
 const cors = require('cors');
 const createError = require('http-errors');
+const envConfig = require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const mongoSanitize = require('express-mongo-sanitize');
@@ -21,16 +22,10 @@ const listRouter = require('./routes/list.route');
 
 // Other variables
 const app = express();
-const connectionString = dbConfig.url.replace("<password>", dbConfig.password); // MongoDb Connection Uri 
-
+const connectionString = (process.env.MONGO_DEV_URI) // MongoDb Connection Uri 
 
 // Connect to MongoDB
-mongoose.connect(connectionString, {
-    useCreateIndex: true,
-    useFindAndModify: false,
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-}).then(
+mongoose.connect(connectionString, dbConfig.params).then(
     () => { console.log('Connected to database successfully'); }, 
     (err) => { console.log('Failed to connect to database: ' + err); }
 );
