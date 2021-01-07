@@ -11,8 +11,7 @@ exports.createTask = async function(req, res, next) {
         const data = {
             name: req.body.name,
             status: req.body.status,
-            list_id: req.body.list_id,
-            user_id: req.body.user_id
+            list_id: req.body.list_id
         };
 
         const doc = await taskModel.create(data);
@@ -50,8 +49,7 @@ exports.updateTask = async function(req, res, next) {
         const data = {
             name: req.body.name,
             status: req.body.status,
-            list_id: req.body.list_id,
-            user_id: req.body.user_id
+            list_id: req.body.list_id
         };
 
         const doc = await taskModel.findByIdAndUpdate(id, data, {

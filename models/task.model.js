@@ -5,15 +5,11 @@ const taskSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    status: {
+    completed: {
         type: Boolean,
         required: true
     },
     list_id: {
-        type: String,
-        required: true
-    },
-    user_id: {
         type: String,
         required: true
     }
