@@ -138,13 +138,15 @@ exports.getAllLists = async function(req, res, next) {
     try {
         const doc = await listModel.find();
 
-        res.status(200).json({
+        /*res.status(200).json({
             status: 'success',
             results: doc.length,
             data: {
                 data: doc
             }
-        });
+        });*/
+
+        res.render('list', { "lists": doc });
 
     } catch (err) {
         res.status(500).json({
