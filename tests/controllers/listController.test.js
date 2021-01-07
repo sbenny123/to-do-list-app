@@ -22,7 +22,7 @@ describe('List controller and router tests', function() {
     var listId = "";
   
     // Test for creating list
-    it("Should create a list", function(done) {
+    /*it("Should create a list", function(done) {
         chai.request(app)
             .post('/lists/')
             .send(list)
@@ -35,7 +35,7 @@ describe('List controller and router tests', function() {
             })
 
             done()
-    })
+    })*/
 
 
     /*// Test for updating list    
