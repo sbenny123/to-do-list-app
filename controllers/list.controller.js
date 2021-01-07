@@ -9,7 +9,7 @@ const listModel = require('../models/list.model');
 exports.createList = async function(req, res, next) {
     try {
         const data = {
-            title: req.body.title,
+            name: req.body.name,
             user_id: req.body.user_id
         };
 
@@ -46,7 +46,7 @@ exports.updateList = async function(req, res, next) {
     try {
         const id = req.params.id;
         const data = {
-            title: req.body.title,
+            name: req.body.name,
             user_id: req.body.user_id
         };
 
