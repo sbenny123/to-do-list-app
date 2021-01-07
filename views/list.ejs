@@ -16,11 +16,29 @@
           </nav>
         <div class="container">
             <h1>Lists</h1>
+            <form action="/lists/create" method="POST">
+                <input type="text" name="name">
+                <input type="text" name="user_id">
+                <button>Add</button>
+            </form>
             <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Tasks left</th>
+                    </tr>
+                </thead>
                 <tbody>
                     <% for(var i=0; i<lists.length; i++) {%>
                         <tr>
-                          <td><%= lists[i].name %></td>
+                            <form action="/lists/edit/<%= lists[i]._id %>" method="POST">
+                            <td><input type="text" name="name" value="<%= lists[i].name %>"></td>
+                            <td></td>
+                            <td>          
+                                    <button type="submit">Edit</button>
+                            </form>
+                                <button formaction="/lists/delete/<%= lists[i]._id %>" type="submit">delete</button>
+                            </td>
                         </tr>
                         <% } %>
                 </tbody>

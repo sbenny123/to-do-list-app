@@ -6,7 +6,7 @@ const listModel = require('../models/list.model');
 
 
 // Create and save a list
-exports.createList = async function(req, res, next) {
+exports.createList = async function(req, res) {
     try {
         const data = {
             name: req.body.name,
@@ -15,39 +15,21 @@ exports.createList = async function(req, res, next) {
 
         const doc = await listModel.create(data);
 
-
-        res.status(201).json({
-            status: 'success',
-            data: {
-                doc
-            }
-        });
-
-        res.redirect("/");
+        res.redirect("/lists");
 
     } catch (err) {
-        res.status(500).json({
-            status: 'failure',
-            message: err.message,
-            data: {
-                doc
-            }
-        })
-
-        next(err);
-
-        res.redirect("/");
+        console.log("Error creating list: " + err);
+        res.redirect("/lists");
     }
 };
 
 
 // Update a list
-exports.updateList = async function(req, res, next) {
+exports.updateList = async function(req, res) {
     try {
         const id = req.params.id;
         const data = {
-            name: req.body.name,
-            user_id: req.body.user_id
+            name: req.body.name
         };
 
         const doc = await listModel.findByIdAndUpdate(id, data, {
@@ -55,51 +37,28 @@ exports.updateList = async function(req, res, next) {
             runValidators: true
         });
 
-
-        res.status(200).json({
-            status: 'success',
-            data: {
-                doc
-            }
-        });
+        res.redirect("/lists");
 
     } catch (err) {
-        res.status(500).json({
-            status: 'failure',
-            message: err.message,
-            data: {
-                doc
-            }
-        })
-
-        next(err);
+        console.log("Error creating list: " + err);
+        res.redirect("/lists");
     }
 };
 
 
 // Delete a list
-exports.deleteList = async function(req, res, next) {
+exports.deleteList = function(req, res) {
     try {
         const id = req.params.id;
 
-        const doc = await listModel.findByIdAndDelete(id);
+        listModel.findByIdAndDelete(id);
 
+        res.redirect("/lists");
 
-        res.status(204).json({
-            status: 'success',
-            data: null
-        });
 
     } catch (err) {
-        res.status(500).json({
-            status: 'failure',
-            message: err.message,
-            data: {
-                doc
-            }
-        })
-
-        next(err);
+        console.log("Error deleting list: " + err);
+        res.redirect("/lists");
     }
 };
 
@@ -134,29 +93,13 @@ exports.getList = async function(req, res, next) {
 
 
 // Get all lists
-exports.getAllLists = async function(req, res, next) {
+exports.getAllLists = function(req, res) {
     try {
-        const doc = await listModel.find();
-
-        /*res.status(200).json({
-            status: 'success',
-            results: doc.length,
-            data: {
-                data: doc
-            }
-        });*/
-
-        res.render('list', { "lists": doc });
+        const doc = listModel.find({}, function(err, data) {
+            res.render('list', { "lists": data });
+        });
 
     } catch (err) {
-        res.status(500).json({
-            status: 'failure',
-            message: err.message,
-            data: {
-                doc
-            }
-        })
-
-        next(err);
+        console.log("Error getting all lists: " + err);
     }
 };
