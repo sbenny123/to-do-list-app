@@ -2,83 +2,97 @@
  * CRUD functions for users
  */
 
+const jwt = require('jsonwebtoken');
+
 const userModel = require('../models/user.model');
+const authConfig = require('../config/auth.config');
 const idUtils = require('../utils/id');
 
 
+exports.showRegistration = function(req, res) {
+    res.render('register');
+}
+
+
 exports.register = async function(req, res) {
-    try {
-        const user_id = idUtils.generateId(6);
-        const data = new userModel({
-            user_id: user_id,
-            fullName: req.body.fullName,
-            email: req.body.email,
-            password: req.body.password
-        });
+    const user_id = idUtils.generateId(6);
+    const data = new userModel({                   
+        user_id: user_id,
+        fullName: req.body.fullName,
+        email: req.body.email,            
+        password: req.body.password
+    });
 
-        // Create and save user to database
-        const newUser = await data.save(function(err, user) {
-            if (err) {
-              return res.status(400).send({
-                message: err
-              });
-            } else {
-              return res.json(user);
-            }
-        });
-
-        //res.json({ error: null, data: newUser });
-
-        console.log('Here');
-    
-    } catch (err) {
-        res.status(400).json({ error: err });
-    }
+    // Create and save user to database
+    const newUser = await data.save(function(err, user) {
+        if (err) {
+            console.log("Error registering user: " + err);
+            res.redirect("/register");
+        
+        } else {
+            res.redirect("/");
+        }
+    });
 };
+
+
+exports.showLogIn = function(req, res) {
+    res.render('login');
+}
 
 
 exports.logIn = function(req, res) {
 
+     userModel.findOne({
+        email: req.body.email
+    }, function(err, user) {
+
+        switch (true) {
+            case (err):
+                console.log("Error logging in user: " + err);
+                break;
+            
+            case (!user):
+                console.log("User's email not found");
+                break;
+
+            default:
+                user.comparePassword(req.body.password, function(err, isMatch) {
+
+                    if (!isMatch) {
+                        console.log("Wrong password");
+
+                    } else {
+                        let token = jwt.sign(
+                            // payload data
+                            { 
+                                email: user.email, 
+                                fullName: user.fullName, 
+                                _id: user._id 
+                            }, 
+                            authConfig.secret, 
+                            { 
+                                expiresIn: 86400 // 24 hours
+                            });
+
+                            user.password = undefined;
+
+                        /*res.header("auth-token", token).json({
+                            error: null,
+                            data: {
+                              token,
+                            },
+                        });*/
+                    }
+                });
+                break;
+        }
+    });
 };
 
 
 exports.showUserProfile = function(req, res) {
 
-};
-
-// Create and save a user
-exports.createUser = async function(req, res, next) {
-    try {
-        const data = {
-            email: req.body.email,
-            password: req.body.password
-        };
-
-        const doc = await userModel.create(data);
-
-
-        res.status(201).json({
-            status: 'success',
-            data: {
-                doc
-            }
-        });
-
-        res.redirect("/");
-
-    } catch (err) {
-        res.status(500).json({
-            status: 'failure',
-            message: err.message,
-            data: {
-                doc
-            }
-        })
-
-        next(err);
-
-        res.redirect("/");
-    }
 };
 
 
@@ -101,33 +115,6 @@ exports.updateUser = async function(req, res, next) {
             data: {
                 doc
             }
-        });
-
-    } catch (err) {
-        res.status(500).json({
-            status: 'failure',
-            message: err.message,
-            data: {
-                doc
-            }
-        })
-
-        next(err);
-    }
-};
-
-
-// Delete a user
-exports.deleteUser = async function(req, res, next) {
-    try {
-        const id = req.params.id;
-
-        const doc = await userModel.findByIdAndDelete(id);
-
-
-        res.status(204).json({
-            status: 'success',
-            data: null
         });
 
     } catch (err) {

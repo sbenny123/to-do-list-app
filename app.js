@@ -10,6 +10,7 @@ const cors = require('cors');
 const createError = require('http-errors');
 const envConfig = require('dotenv').config();
 const express = require('express');
+const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 const mongoSanitize = require('express-mongo-sanitize');
 const path = require('path');
@@ -61,10 +62,26 @@ app.use('/tasks', taskRouter);
 app.use('/', userRouter);
 
 
-// Catch 404 and forward to error handler
-app.use(function(req, res, next) {
-    next(createError(404));  
+
+/*app.use(function(req, res, next) {
+    res.header(
+        "Access-Control-Allow-Headers",
+        "x-access-token, Origin, Content-Type, Accept"
+    );
+    next();
 });
+
+    if (req.headers && req.headers.authorization && req.headers.authorization.split(' ')[0] === 'JWT') {
+        jsonwebtoken.verify(req.headers.authorization.split(' ')[1], 'RESTFULAPIs', function(err, decode) {
+          if (err) req.user = undefined;
+          req.user = decode;
+          next();
+        });
+      } else {
+        req.user = undefined;
+        next();
+    }
+});*/
 
 // Error handler
 app.use(function(err, req, res, next) {

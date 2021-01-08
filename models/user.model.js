@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require('bcryptjs');
 
+
 const userSchema = new mongoose.Schema({
     user_id: {
         type: String,
@@ -21,18 +22,15 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        minLength: 6,
         required: true,
-        select: false
+        minlength: 6
     }
 });
 
+
 // Encrypts and stores password before creating new user
 userSchema.pre('save', function (next) {
-
-    console.log('In here');
-
-    var user = this;
+    let user = this;
     
     // Check if password is available and modified
     if (user.isModified('password')) {
@@ -53,17 +51,17 @@ userSchema.pre('save', function (next) {
     }
 });
 
+
 /**
  * Compare entered password with hashed password - used during login
- * @param {String} password 
+ * @param {String} enteredPassword 
  * @param {*} callBack 
  */
-userSchema.methods.comparePassword = function (password, callBack) {
-    return bcrypt.compare(password, this.password, function(err, isMatch) {
+userSchema.methods.comparePassword = function (enteredPassword, callBack) {
+    return bcrypt.compare(enteredPassword, this.password, function(err, isMatch) {
         if (err) return callBack(err);
         callBack(null, isMatch)
     });
 };
-
 
 module.exports = mongoose.model("User", userSchema);
