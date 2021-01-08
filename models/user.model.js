@@ -7,34 +7,59 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
+    fullName: {
+        type: String,
+        trim: true,
+        required: true,
+    },
     email: {
         type: String,
-        lowercase: true
+        unique: true,
+        lowercase: true,
+        trim: true,
+        required: true
     },
     password: {
         type: String,
         minLength: 6,
+        required: true,
         select: false
     }
 });
 
-// encrypt the password using 'bcryptjs'
-// Mongoose -> Document Middleware
-userSchema.pre('save', async function (next) {
-    // check the password if it is modified
-    if (!this.isModified('password')) {
-        return next();
+// Encrypts and stores password before creating new user
+userSchema.pre('create', function (next) {
+    var user = this;
+    
+    // Check if password is available and modified
+    if (user.isModified('password')) {
+
+        // Hash password
+        bcrypt.genSalt(10, function(err, salt) {
+            if (err) return next(err)
+
+            bcrypt.hash(user.password, salt, function(err, hash) {
+                if (err) return next(err)
+                user.password = hash; // hashed password is what is stored in database
+                next();
+            });
+        });
+        
+    } else {
+        next();
     }
-
-    // Hashing the password
-    this.password = await bcrypt.hash(this.password, 12);
-
-    next();
 });
 
-// This is Instance Method that is gonna be available on all documents in a certain collection
-userSchema.methods.correctPassword = async function (typedPassword, originalPassword) {
-    return await bcrypt.compare(typedPassword, originalPassword);
+/**
+ * Compare entered password with hashed password - used during login
+ * @param {String} password 
+ * @param {*} callBack 
+ */
+userSchema.methods.comparePassword = function (password, callBack) {
+    return bcrypt.compare(password, this.password, function(err, isMatch) {
+        if (err) return callBack(err);
+        callBack(null, isMatch)
+    });
 };
 
 

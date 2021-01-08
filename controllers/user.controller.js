@@ -3,10 +3,27 @@
  */
 
 const userModel = require('../models/user.model');
+const idUtils = require('../utils/id');
 
 
 exports.register = function(req, res) {
+    try {
+        const user_id = idUtils.generateId(6);
+        const data = {
+            user_id: user_id,
+            fullName: req.body.fullName,
+            email: req.body.email,
+            hashed_password: req.body.password
+        };
 
+        // Create and save user to database
+        const newUser = await data.create(data);
+
+        res.json({ error: null, data: savedUser });
+    
+    } catch (err) {
+        res.status(400).json({ error });
+    }
 };
 
 
