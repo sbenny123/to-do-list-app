@@ -5,6 +5,20 @@
 const userModel = require('../models/user.model');
 
 
+exports.register = function(req, res) {
+
+};
+
+
+exports.logIn = function(req, res) {
+
+};
+
+
+exports.showUserProfile = function(req, res) {
+
+};
+
 // Create and save a user
 exports.createUser = async function(req, res, next) {
     try {
