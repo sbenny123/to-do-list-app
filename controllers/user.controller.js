@@ -6,23 +6,33 @@ const userModel = require('../models/user.model');
 const idUtils = require('../utils/id');
 
 
-exports.register = function(req, res) {
+exports.register = async function(req, res) {
     try {
         const user_id = idUtils.generateId(6);
-        const data = {
+        const data = new userModel({
             user_id: user_id,
             fullName: req.body.fullName,
             email: req.body.email,
-            hashed_password: req.body.password
-        };
+            password: req.body.password
+        });
 
         // Create and save user to database
-        const newUser = await data.create(data);
+        const newUser = await data.save(function(err, user) {
+            if (err) {
+              return res.status(400).send({
+                message: err
+              });
+            } else {
+              return res.json(user);
+            }
+        });
 
-        res.json({ error: null, data: savedUser });
+        //res.json({ error: null, data: newUser });
+
+        console.log('Here');
     
     } catch (err) {
-        res.status(400).json({ error });
+        res.status(400).json({ error: err });
     }
 };
 

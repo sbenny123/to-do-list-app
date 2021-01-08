@@ -28,7 +28,10 @@ const userSchema = new mongoose.Schema({
 });
 
 // Encrypts and stores password before creating new user
-userSchema.pre('create', function (next) {
+userSchema.pre('save', function (next) {
+
+    console.log('In here');
+
     var user = this;
     
     // Check if password is available and modified
@@ -44,7 +47,7 @@ userSchema.pre('create', function (next) {
                 next();
             });
         });
-        
+
     } else {
         next();
     }

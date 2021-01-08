@@ -20,6 +20,7 @@ const dbConfig = require('./config/database.config'); // MongoDB Uri
 const indexRouter = require('./routes/index.route');
 const listRouter = require('./routes/list.route');
 const taskRouter = require('./routes/task.route');
+const userRouter = require('./routes/user.route');
 
 // Other variables
 const app = express();
@@ -57,6 +58,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/lists', listRouter);
 app.use('/tasks', taskRouter);
+app.use('/', userRouter);
 
 
 // Catch 404 and forward to error handler
