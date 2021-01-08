@@ -5,6 +5,11 @@
 const mongoose = require('mongoose');
 
 const listSchema = new mongoose.Schema({
+    list_id: {
+        type: String,
+        required: true,
+        unique: true
+    },
     name: {
         type: String,
         required: true,

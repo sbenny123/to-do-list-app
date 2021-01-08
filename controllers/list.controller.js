@@ -3,12 +3,16 @@
  */
 
 const listModel = require('../models/list.model');
+const idUtils = require('../utils/id.utils');
 
 
 // Create and save a list
 exports.createList = async function(req, res) {
     try {
+        const list_id = idUtils.generateId(5);
+
         const data = {
+            list_id: list_id,
             name: req.body.name,
             user_id: req.body.user_id
         };
@@ -95,8 +99,8 @@ exports.getList = async function(req, res, next) {
 // Get all lists
 exports.getAllLists = function(req, res) {
     try {
-        const doc = listModel.find({}, function(err, data) {
-            res.render('list', { "lists": data });
+        listModel.find({}, function(err, data) {
+            res.render('list-view', { "lists": data });
         });
 
     } catch (err) {

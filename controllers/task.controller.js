@@ -3,6 +3,7 @@
  */
 
 const taskModel = require('../models/task.model');
+const listModel = require('../models/list.model');
 
 
 // Create and save a task
@@ -136,27 +137,22 @@ exports.getTask = async function(req, res, next) {
 
 
 // Get all tasks
-exports.getAllTasks = async function(req, res, next) {
+exports.getAllTasks = async function(req, res) {
     try {
-        const doc = await taskModel.find();
+        const list_id = req.params.list_id;
+        let listName = "";
 
-        res.status(200).json({
-            status: 'success',
-            results: doc.length,
-            data: {
-                data: doc
-            }
+        const listData = await listModel.find({ list_id: list_id }, function(err, data) {
+            if (data.length > 0) {
+                listName = data[0].name;
+            }  
+        });
+
+        const doc = await taskModel.find({ list_id: list_id }, function(err, data) {
+            res.render('task-view', { "tasks": data, "listName": listName });
         });
 
     } catch (err) {
-        res.status(500).json({
-            status: 'failure',
-            message: err.message,
-            data: {
-                doc
-            }
-        })
-
-        next(err);
+        console.log("Error getting all tasks for list " + ": " + err);
     }
 };

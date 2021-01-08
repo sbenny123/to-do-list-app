@@ -20,9 +20,9 @@ router.put('/:id', taskController.updateTask);
 router.delete('/:id', taskController.updateTask);
 
 // Get a task
-router.get('/:id', taskController.getTask);
+router.get('/one/:id', taskController.getTask);
 
 // Get all tasks
-router.get('/', taskController.getAllTasks);
+router.get('/:list_id', taskController.getAllTasks);
 
 module.exports = router;
