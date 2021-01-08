@@ -18,31 +18,26 @@
             <h1>Lists</h1>
             <form action="/lists/create" method="POST">
                 <input type="text" name="name">
-                <input type="text" name="user_id">
                 <button>Add</button>
             </form>
-            <table>
+            <table class="table table-bordered table-striped table-hover table-condensed table-responsive" id="listTable">
                 <thead>
                     <tr>
                         <th>Name</th>
                         <th>Tasks left</th>
+                        <th>Tasks completed</th>
                     </tr>
                 </thead>
                 <tbody>
                     <% for(var i=0; i<lists.length; i++) {%>
                         <tr>
-                            <form action="/lists/edit/<%= lists[i]._id %>" method="POST">
-                            <td><input type="text" name="name" value="<%= lists[i].name %>"></td>
+                            <td><a href="/tasks/<%= lists[i].list_id %>"><%= lists[i].name %></a></td>
                             <td></td>
-                            <td>          
-                                    <button type="submit">Edit</button>
-                            </form>
-                            </td>
+                            <td></td>
                         </tr>
                         <% } %>
                 </tbody>
             </table>
         </div>
     </body>
-
 </html>

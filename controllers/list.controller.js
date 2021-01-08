@@ -3,7 +3,7 @@
  */
 
 const listModel = require('../models/list.model');
-const idUtils = require('../utils/id.utils');
+const idUtils = require('../utils/id');
 
 
 // Create and save a list
@@ -14,7 +14,7 @@ exports.createList = async function(req, res) {
         const data = {
             list_id: list_id,
             name: req.body.name,
-            user_id: req.body.user_id
+            user_id: "1234" //req.body.user_id
         };
 
         const doc = await listModel.create(data);
@@ -68,7 +68,7 @@ exports.deleteList = function(req, res) {
 
 
 // Get a list
-exports.getList = async function(req, res, next) {
+/*exports.getList = async function(req, res, next) {
     try {
         const id = req.params.id;
 
@@ -93,7 +93,7 @@ exports.getList = async function(req, res, next) {
 
         next(err);
     }
-};
+};*/
 
 
 // Get all lists

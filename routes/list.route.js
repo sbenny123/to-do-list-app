@@ -20,7 +20,7 @@ router.post('/edit/:id', listController.updateList);
 router.delete('/delete/:id', listController.deleteList);
 
 // Get a list
-router.get('/view/:id', listController.getList);
+//router.get('/view/:id', listController.getList);
 
 // Get all lists
 router.get('/', listController.getAllLists);

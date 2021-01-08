@@ -11,7 +11,7 @@ const taskController = require('../controllers/task.controller'); // Task contro
 
 
 // Create a task
-router.post('/', taskController.createTask);
+router.post('/create', taskController.createTask);
 
 // Update a task
 router.put('/:id', taskController.updateTask);

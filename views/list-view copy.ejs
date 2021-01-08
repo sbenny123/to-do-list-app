@@ -15,28 +15,26 @@
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
           </nav>
         <div class="container">
-            <h1><%= listData.name %></h1>
-            <form action="/tasks/create" method="POST">
-                <input type="hidden" name="list_id" value="<%= listData.id %>"> 
+            <h1>Lists</h1>
+            <form action="/lists/create" method="POST">
                 <input type="text" name="name">
                 <button>Add</button>
             </form>
-            <table>
+            <table class="table table-bordered table-striped table-hover table-condensed table-responsive" id="listTable">
                 <thead>
                     <tr>
-                        <th></th>
                         <th>Name</th>
+                        <th>Tasks left</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <% for(var i=0; i<tasks.length; i++) {%>
+                    <% for(var i=0; i<lists.length; i++) {%>
                         <tr>
-                            <td><input type="checkbox"></td>
-                            <form action="/lists/edit/<%= tasks[i]._id %>" method="POST">
-                            <td><input type="text" name="name" value="<%= tasks[i].name %>"></td>
+                            <form action="/lists/edit/<%= lists[i]._id %>" method="POST">
+                            <td><input type="text" name="name" value="<%= lists[i].name %>"></td>
                             <td></td>
                             <td>          
-                                <button type="submit">Edit</button>
+                                    <button type="submit">Edit</button>
                             </form>
                             </td>
                         </tr>
@@ -45,5 +43,4 @@
             </table>
         </div>
     </body>
-
 </html>

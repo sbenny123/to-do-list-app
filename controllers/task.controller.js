@@ -7,38 +7,23 @@ const listModel = require('../models/list.model');
 
 
 // Create and save a task
-exports.createTask = async function(req, res, next) {
+exports.createTask = async function(req, res) {
+    const list_id = req.body.list_id;
+
     try {
         const data = {
             name: req.body.name,
-            status: req.body.status,
-            list_id: req.body.list_id
+            completed: false,
+            list_id: list_id
         };
 
         const doc = await taskModel.create(data);
 
-
-        res.status(201).json({
-            status: 'success',
-            data: {
-                doc
-            }
-        });
-
-        res.redirect("/");
+        res.redirect("/tasks/" + list_id);
 
     } catch (err) {
-        res.status(500).json({
-            status: 'failure',
-            message: err.message,
-            data: {
-                doc
-            }
-        })
-
-        next(err);
-
-        res.redirect("/");
+        console.log("Error creating task: " + err);
+        res.redirect("/tasks/" + list_id);
     }
 };
 
@@ -140,16 +125,19 @@ exports.getTask = async function(req, res, next) {
 exports.getAllTasks = async function(req, res) {
     try {
         const list_id = req.params.list_id;
-        let listName = "";
+        let listData = {
+            id: list_id,
+            name: ""
+        };
 
-        const listData = await listModel.find({ list_id: list_id }, function(err, data) {
+        const listDoc = await listModel.find({ list_id: list_id }, function(err, data) {
             if (data.length > 0) {
-                listName = data[0].name;
+                listData.name = data[0].name;
             }  
         });
 
         const doc = await taskModel.find({ list_id: list_id }, function(err, data) {
-            res.render('task-view', { "tasks": data, "listName": listName });
+            res.render('task-view', { "tasks": data, "listData": listData });
         });
 
     } catch (err) {
