@@ -6,7 +6,7 @@ var db;
 
 describe('User model tests', function() {
 
-before(function(done) {
+/*before(function(done) {
  db = mongoose.connect("mongodb+srv://dbUser:day-planner-123@day-planner-organiser.qn0yz.mongodb.net/test_db?retryWrites=true&w=majority");
    done();
  });
@@ -17,12 +17,14 @@ before(function(done) {
  });
 
  beforeEach(function(done) {
-  var account = new userModel({
-    username: 'testy@email.com',
-    password: 'testy'
+  var user = new userModel({
+    user_id: '123456',
+    fullName: 'Testy McTesty',
+    username: 'testy123@email.com',
+    password: 'testy123'
   });
 
-  account.save(function(error) {
+  user.save(function(error) {
     if (error) console.log('error' + error.message);
     else console.log('no error');
     done();
@@ -30,17 +32,18 @@ before(function(done) {
  });
 
  it('find a user by email', function(done) {
-    userModel.findOne({ email: 'testy@email.com' }, function(err, user) {
-      user.username.should.eql('testy@email.com');
+    userModel.findOne({ username: 'testy123@email.com' }, function(err, user) {
+        console.log(user);
+      user.username.should.eql('testy123@email.com');
       console.log("   username: ", user.username)
       done();
     });
  });
 
  afterEach(function(done) {
-    userModel.deleteOne({ username: 'testy@email.com' }, function() {
+    userModel.deleteOne({ username: 'testy123@email.com' }, function() {
       done();
     });
- });
+ });*/
 
 });
