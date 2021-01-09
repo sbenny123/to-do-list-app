@@ -12,8 +12,7 @@ const listSchema = new mongoose.Schema({
     },
     name: {
         type: String,
-        required: true,
-        unique: true
+        required: true
     },
     user_id: {
         type: String,

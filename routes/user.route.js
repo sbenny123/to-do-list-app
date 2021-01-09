@@ -16,7 +16,7 @@ router.post('/register', userController.register);
 
 router.get('/login', userController.showLogIn);
 router.post('/login', passport.authenticate('local'), function(req, res) {
-    res.redirect('/user-profile')
+    res.redirect('/lists')
 });
 
 router.get('/user-profile', userController.showUserProfile);

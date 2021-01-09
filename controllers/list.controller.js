@@ -14,7 +14,7 @@ exports.createList = async function(req, res) {
         const data = {
             list_id: list_id,
             name: req.body.name,
-            user_id: "1234" //req.body.user_id
+            user_id: req.user.user_id || ""
         };
 
         const doc = await listModel.create(data);
@@ -98,8 +98,10 @@ exports.deleteList = function(req, res) {
 
 // Get all lists
 exports.getAllLists = function(req, res) {
+    const user_id = req.user.user_id || "";
+
     try {
-        listModel.find({}, function(err, data) {
+        listModel.find({ user_id: user_id }, function(err, data) {
             res.render('list-view', { "lists": data });
         });
 

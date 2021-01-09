@@ -3,6 +3,7 @@
 // Module dependencies
 const app = require('../app');
 const http = require('http');
+const socket = require('socket.io');
 
 
 // Set port the server should listen to
@@ -10,7 +11,14 @@ const port = normalisePort(process.env.PORT || 3000);
 app.set('port', port);
 
 // Create HTTP server instance and make it listen to the specified port
-var server = http.createServer(app);
+const server = http.createServer(app);
+const io = socket(server);
+
+io.on("connection", function(socket) {  
+  console.log("A user has connected to the socket!");
+  socket.on('disconnect', () => console.log('A user has disconnected from the socket!'));
+});
+
 server.listen(port);
 
 // Handle errors and success
