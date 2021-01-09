@@ -28,9 +28,11 @@ const listRouter = require('./routes/list.route');
 const taskRouter = require('./routes/task.route');
 const userRouter = require('./routes/user.route');
 
+const connectionString = (process.env.MONGO_DEV_URI) // MongoDb Connection Uri 
+
 // Other variables
 const app = express();
-const connectionString = (process.env.MONGO_DEV_URI) // MongoDb Connection Uri 
+
 
 // Connect to MongoDB
 mongoose.connect(connectionString, dbConfig.params).then(
