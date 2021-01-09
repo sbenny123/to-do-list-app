@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require('bcryptjs');
+const passportLocalMongoose = require("passport-local-mongoose");
 
 
 const userSchema = new mongoose.Schema({
@@ -13,7 +14,7 @@ const userSchema = new mongoose.Schema({
         trim: true,
         required: true,
     },
-    email: {
+    username: {
         type: String,
         unique: true,
         lowercase: true,
@@ -22,14 +23,13 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: true,
         minlength: 6
     }
 });
 
 
 // Encrypts and stores password before creating new user
-userSchema.pre('save', function (next) {
+/*userSchema.pre('save', function (next) {
     let user = this;
     
     // Check if password is available and modified
@@ -49,7 +49,7 @@ userSchema.pre('save', function (next) {
     } else {
         next();
     }
-});
+});*/
 
 
 /**
@@ -57,11 +57,13 @@ userSchema.pre('save', function (next) {
  * @param {String} enteredPassword 
  * @param {*} callBack 
  */
-userSchema.methods.comparePassword = function (enteredPassword, callBack) {
+/*userSchema.methods.comparePassword = function (enteredPassword, callBack) {
     return bcrypt.compare(enteredPassword, this.password, function(err, isMatch) {
         if (err) return callBack(err);
         callBack(null, isMatch)
     });
-};
+};*/
+
+userSchema.plugin(passportLocalMongoose);
 
 module.exports = mongoose.model("User", userSchema);

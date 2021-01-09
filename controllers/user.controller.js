@@ -8,6 +8,8 @@ const userModel = require('../models/user.model');
 const authConfig = require('../config/auth.config');
 const idUtils = require('../utils/id');
 
+const passport = require('passport');
+
 
 exports.showRegistration = function(req, res) {
     res.render('register');
@@ -19,11 +21,22 @@ exports.register = async function(req, res) {
     const data = new userModel({                   
         user_id: user_id,
         fullName: req.body.fullName,
-        email: req.body.email,            
-        password: req.body.password
+        username: req.body.username
     });
 
-    // Create and save user to database
+    console.log(req.body);
+    var result = userModel.register(data, req.body.password, function(err, user) {
+        if (err) {
+            console.log('Error registering user: ' + err);
+            return res.render('register');
+        }
+
+        passport.authenticate('local')(req, res, function () {
+          res.redirect('/user-profile');
+        });
+    });
+
+   /* // Create and save user to database
     const newUser = await data.save(function(err, user) {
         if (err) {
             console.log("Error registering user: " + err);
@@ -32,7 +45,7 @@ exports.register = async function(req, res) {
         } else {
             res.redirect("/");
         }
-    });
+    });*/
 };
 
 
@@ -43,7 +56,14 @@ exports.showLogIn = function(req, res) {
 
 exports.logIn = function(req, res) {
 
-     userModel.findOne({
+   /* var result = passport.authenticate('local') {
+
+    }
+    (req, res, function () {
+        res.redirect('/');
+    });*/
+
+    /* userModel.findOne({
         email: req.body.email
     }, function(err, user) {
 
@@ -83,16 +103,21 @@ exports.logIn = function(req, res) {
                               token,
                             },
                         });*/
-                    }
+                 /*   }
                 });
                 break;
         }
-    });
+    });*/
 };
 
+exports.logOut = function(err, res) {
+    req.logOut();
+
+    res.redirect('/');
+};
 
 exports.showUserProfile = function(req, res) {
-
+    res.render('user-profile');
 };
 
 

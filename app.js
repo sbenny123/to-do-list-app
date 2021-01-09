@@ -10,11 +10,16 @@ const cors = require('cors');
 const createError = require('http-errors');
 const envConfig = require('dotenv').config();
 const express = require('express');
-const jwt = require('jsonwebtoken');
+const session = require('express-session');
+const LocalStrategy = require('passport-local').Strategy;
+//const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 const mongoSanitize = require('express-mongo-sanitize');
+const passport = require('passport');
 const path = require('path');
 
+// Config
+const authConfig = require('./config/auth.config');
 const dbConfig = require('./config/database.config'); // MongoDB Uri
 
 // Routers
@@ -35,24 +40,32 @@ mongoose.connect(connectionString, dbConfig.params).then(
 
 
 app.use(cors());
-
-// Parse requests of conent-type - application/json
-app.use(bodyParser.json());
-
-// Parse requests of content-type - application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: true }));
-
-// Replace prohibited characters with _
+app.use(bodyParser.json()); // Parses requests of content-type - application/json
+app.use(bodyParser.urlencoded({ extended: true })); // Parses requests of content-type - application/x-www-form-urlencoded
 app.use(mongoSanitize({
     replaceWith: '_'
+})); // Replaces prohibited characters with _
+app.use(session({
+    secret: authConfig.secret,
+    resave: false,
+    saveUninitialized: false
 }));
 
 // Setup view engine
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+app.use(passport.initialize());
+app.use(passport.session());
+
 // Render static files
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Passport config
+const userModel = require('./models/user.model');
+passport.use(new LocalStrategy(userModel.authenticate()));
+passport.serializeUser(userModel.serializeUser());
+passport.deserializeUser(userModel.deserializeUser());
 
 
 // Define routes for different parts of the site
