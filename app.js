@@ -60,8 +60,10 @@ app.set('view engine', 'ejs');
 app.use(passport.initialize());
 app.use(passport.session());
 
+
 // Render static files
 app.use(express.static(path.join(__dirname, 'public')));
+
 
 // Passport config
 const userModel = require('./models/user.model');

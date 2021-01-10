@@ -4,19 +4,21 @@
 const app = require('../app');
 const http = require('http');
 
-// Helpers
-const socketApi = require('../helpers/socketApi.helper');
+const socketApi = require('../config/socket.config'); // Socket configuration and events
 
 
 // Set port the server should listen to
 const port = normalisePort(process.env.PORT || 3000);
 app.set('port', port);
 
-// Create HTTP server instance and make it listen to the specified port
+// Create HTTP server instance
 const server = http.createServer(app);
+
+// Give socket access to server to listen for events
 const io = socketApi.io;
 io.attach(server);
 
+// Make server listen to the specified port
 server.listen(port);
 
 // Handle errors and success
@@ -26,8 +28,8 @@ server.on('listening', onListening);
 
 /**
  * Normalise a port into a number, string, or false.
+ * @param val: Port to check
  */
-
 function normalisePort(val) {
   let port = parseInt(val, 10);
 

@@ -16,10 +16,10 @@
           </nav>
         <div class="container">
             <h1><%= listData.name %></h1>
-            <form id="form_task" action="/tasks/create" method="POST">
-                <input type="hidden" id="hidden_list_id"name="list_id" value="<%= listData.id %>"> 
-                <input type="text" id="input_name" name="name">
-                <button type="submit">Add</button>
+            <form action="/tasks/create" method="POST">
+                <input type="hidden" name="list_id" value="<%= listData.id %>"> 
+                <input type="text" id="input-name" name="name">
+                <button>Add</button>
             </form>
             <table>
                 <thead>
@@ -32,10 +32,12 @@
                     <% for(var i=0; i<tasks.length; i++) {%>
                         <tr>
                             <td><input type="checkbox"></td>
+                            <form action="/lists/edit/<%= tasks[i]._id %>" method="POST">
                             <td><input type="text" name="name" value="<%= tasks[i].name %>"></td>
                             <td></td>
                             <td>          
                                 <button type="submit">Edit</button>
+                            </form>
                             </td>
                         </tr>
                         <% } %>
@@ -43,7 +45,6 @@
             </table>
         </div>
     </body>
-    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
     <script src="https://cdn.socket.io/socket.io-3.0.1.min.js"></script>
-    <script src="/scripts/task.js"></script>
+    <script  src="../public/scripts/task.js"></script>
 </html>
