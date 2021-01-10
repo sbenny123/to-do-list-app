@@ -6,7 +6,6 @@ const taskModel = require('../models/task.model');
 const listModel = require('../models/list.model');
 
 const socketApi = require('../config/socket.config');
-const { LengthRequired } = require('http-errors');
 
 
 
