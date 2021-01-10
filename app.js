@@ -12,7 +12,6 @@ const envConfig = require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
 const LocalStrategy = require('passport-local').Strategy;
-//const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 const mongoSanitize = require('express-mongo-sanitize');
 const passport = require('passport');
@@ -108,6 +107,7 @@ app.use(function(err, req, res, next) {
   
     // Render the error page
     res.status(err.status || 500);
+    console.log(err);
     res.render('error');
 });
 

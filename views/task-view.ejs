@@ -5,45 +5,72 @@
         <meta charset="UTF-8">
 	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
         <title>Lists</title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" 
-        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" 
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" 
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" 
         crossorigin="anonymous">
     </head>
 
     <body>
-        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-          </nav>
-        <div class="container">
+        <div class="page-content page-container" id="page-content">
             <h1><%= listData.name %></h1>
-            <form id="form_task" action="/tasks/create" method="POST">
+            <form role="form" id="form_task" method="POST">
                 <input type="hidden" id="hidden_list_id"name="list_id" value="<%= listData.id %>"> 
-                <input type="text" id="input_name" name="name">
-                <button type="submit">Add</button>
+
+                <div class="form-group">
+                    <input type="text" class="form-control" id="input_name" name="name" placeholder="Add a task">
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn">Add task</button>
+                </div>
             </form>
-            <table>
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Name</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% for(var i=0; i<tasks.length; i++) {%>
-                        <tr>
-                            <td><input type="checkbox"></td>
-                            <td><input type="text" name="name" value="<%= tasks[i].name %>"></td>
-                            <td></td>
-                            <td>          
-                                <button type="submit">Edit</button>
-                            </td>
-                        </tr>
-                        <% } %>
-                </tbody>
-            </table>
+
+            <div class="list-group checkbox-list-group" id="tasks">          
+                <% for(var i = 0; i < tasks.length; i++) {%>  
+                    <div class="list-group-item container">
+                        <div class="row">
+                            <div class="col-12 col-md-8">
+                                <label>
+                                    <input type="checkbox">
+                                    <span class="list-group-item-text">
+                                        <i class="fa fa-fw"></i>                              
+                                        <%= tasks[i].name %>
+                                    </span>
+                                </label>
+                            </div>
+                            <div class="dropdown col-6 col-md-4">
+                                <button type="button" class="btn btn-secondary" id="btn_more_actions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
+                                        <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+                                    </svg>
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="btn_more_actions">
+                                    <button type="button" class="dropdown-item" id="btn_edit" onclick="editTask('<%= tasks[i] %>')">Edit item</button>
+                                    <button type="button" class="dropdown-item" id="btn_delete" onclick="deleteTask('<%= tasks[i]._id %>', '<%= tasks[i].list_id %>')">Delete item</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <% } %>
+            </div>
         </div>
     </body>
-    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" 
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" 
+        crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" 
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" 
+        crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" 
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" 
+        crossorigin="anonymous">
+    </script>
     <script src="https://cdn.socket.io/socket.io-3.0.1.min.js"></script>
     <script src="/scripts/task.js"></script>
 </html>

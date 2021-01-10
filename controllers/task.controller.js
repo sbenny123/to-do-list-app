@@ -6,26 +6,67 @@ const taskModel = require('../models/task.model');
 const listModel = require('../models/list.model');
 
 const socketApi = require('../config/socket.config');
+const { LengthRequired } = require('http-errors');
 
+
+
+function isValidInput(data) {
+    let name = data.name || undefined;
+    let completed = data.completed || false;
+    let list_id = data.list_id || undefined;
+
+    if ((name && typeof(name) == "string") &&
+        (list_id && typeof(list_id) == "string")
+        ) {
+            return true;
+        }
+
+        return false;
+}
 
 // Create and save a task
-exports.createTask = async function(req, res) {
-    const list_id = req.body.list_id;
+/*exports.createTask = async function(req, res) {
+    const list_id = req.body.list_id || null;
 
     try {
         const data = {
-            name: req.body.name,
+            name: req.body.name || null,
             completed: false,
             list_id: list_id
         };
 
-        const doc = await taskModel.create(data);
+        if (isValidInput(data)) {
+            const doc = await taskModel.create(data);
 
-        res.redirect("/tasks/" + list_id);
+            res.redirect("/tasks/" + list_id);
+        }
 
     } catch (err) {
         console.log("Error creating task: " + err);
         res.redirect("/tasks/" + list_id);
+    }
+};*/
+
+// Create and save a task
+exports.createTask = async function(taskData) {
+    try {
+        const list_id = taskData.list_id || null;
+
+        const data = {
+            name: taskData.name || null,
+            completed: false,
+            list_id: list_id
+        };
+
+        // Create task if valid and make calls to re-update task view
+        if (isValidInput(data)) {
+            const taskDoc = await taskModel.create(data);
+            socketApi.getTasks(list_id);
+        }
+
+    } catch (err) {
+        console.log("Error creating task: " + err);
+        res.render('error', {});
     }
 };
 
@@ -68,7 +109,7 @@ exports.updateTask = async function(req, res, next) {
 
 
 // Delete a task
-exports.deleteTask = async function(req, res, next) {
+/*exports.deleteTask = async function(req, res, next) {
     try {
         const id = req.params.id;
 
@@ -90,6 +131,27 @@ exports.deleteTask = async function(req, res, next) {
         })
 
         next(err);
+    }
+};*/
+
+
+// Delete a task
+exports.deleteTask = async function(taskData) {
+    try {
+        const taskId = taskData.id || null;
+        const listId = taskData.listId || null;
+
+        console.log(taskData);
+
+        if (taskId !== null) {
+            console.log("deleting task");
+
+            const taskDoc = await taskModel.findByIdAndDelete(taskId);
+            socketApi.getTasks(listId);
+        }
+
+    } catch (err) {
+        console.log("Error deleting task: " + err);
     }
 };
 
@@ -123,97 +185,78 @@ exports.getTask = async function(req, res, next) {
 };
 
 
-// Get all tasks
-exports.getAllTasks = async function(req, res) {
-
-    console.log(req.io);
+// Get all tasks for list
+exports.getTasksRoute = async function(req, res) {
     try {
-        const list_id = req.params.list_id;
+        const list_id = req.params.list_id || null;
         let listData = {
             id: list_id,
             name: ""
         };
 
-        const listDoc = await listModel.find({ list_id: list_id }, function(err, data) {
-            if (data.length > 0) {
-                listData.name = data[0].name;
-            }  
-        });
+        if (list_id !== null) {
+            const listDoc = await listModel.find({ list_id: list_id }, function(err, data) {
+                if (Array.isArray(data) && data.length > 0) {
+                    listData.name = data[0].name || "";
+                }  
+            });
+    
+            const taskDocs = await taskModel.find({ list_id: list_id }, function(err, data) {
+                if (Array.isArray(data) && data.length > 0) {
+                    res.render('task-view', { "tasks": data, "listData": listData });
+                } else {
+                    res.render('task-view', { "tasks": [], "listData": listData });
+                }
+            });
 
-        const doc = await taskModel.find({ list_id: list_id }, function(err, data) {
-
-            res.render('task-view', { "tasks": data, "listData": listData });
-        });
-
+        } else {
+            res.render('error', {});
+        }
+        
     } catch (err) {
-        console.log("Error getting all tasks for list " + ": " + err);
-    }
-};
-
-// Create and save a task
-exports.createTaskNew = async function(taskData) {
-
-    const list_id = taskData.list_id;
-
-    try {
-        const data = {
-            name: taskData.name,
-            completed: false,
-            list_id: list_id
-        };
-
-        console.log("final task data to add is");
-        console.log(data);
-
-        const doc = await taskModel.create(data);
-
-    } catch (err) {
-        console.log("Error creating task: " + err);
-    }
-};
-
-// Create and save a task
-exports.createTaskNew2 = async function(req, res) {
-
-    const list_id = req.body.list_id;
-
-    try {
-        const data = {
-            name: req.body.name,
-            completed: false,
-            list_id: list_id
-        };
-
-        console.log("creating task (in controller)");
-        console.log(data);
-
-        const doc = await taskModel.create(data);
-
-    } catch (err) {
-        console.log("Error creating task: " + err);
+        console.log("Error getting all tasks for list: " + err);
+        res.render('error', {});
     }
 };
 
 
-exports.getAllTasksNew = function(listId) {
+// Get all tasks for list using listId
+exports.getTasksSocket = async function(listId) {
     try {
         let listData = {
-            id: listId,
+            id: listId || null,
             name: ""
         };
 
-        const listDoc = listModel.find({ list_id: listId }, function(err, data) {
-            if (data.length > 0) {
-                listData.name = data[0].name;
-            }  
-        });
+        if (listId !== null) {
+            const listDoc = listModel.find({ list_id: listId }, function(err, data) {
+                if (Array.isArray(data) && data.length > 0) {
+                    listData.name = data[0].name;
+                }
+            });
+    
+            const taskDocs = taskModel.find({ list_id: listId }, function(err, data) {
+                let result = {
+                    tasks: [],
+                    listData: listData
+                };
 
-        const doc = taskModel.find({ list_id: listData }, function(err, data) {
+                if (Array.isArray(data) && data.length > 0) {
+                    result.tasks = data;
+                }
 
-            res.render('task-view', { "tasks": data, "listData": listData });
-        });
+                return result;
+            });
+    
+            let [list, tasks] = await Promise.all([listDoc, taskDocs]);
 
+            return tasks;
+        }
+
+        return {};
+        
     } catch (err) {
-        console.log("Error getting all tasks for list " + ": " + err);
+        console.log("Error getting all tasks for list: " + err);
+        res.render('error', {});
     }
 };

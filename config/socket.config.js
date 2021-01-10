@@ -6,6 +6,7 @@ const taskController = require('../controllers/task.controller');
 let socketApi = {};
 socketApi.io = io;
 
+
 io.on('connection', function(socket){
     console.log("Connected to socket");
 
@@ -13,19 +14,33 @@ io.on('connection', function(socket){
         console.log("Disconnected from socket")
     });
 
-    socket.on("create task", function(data) {
-        console.log("New task to add");
-
-        //taskController.createTaskNew(data);
-
-        io.emit('create task', data);
-
-
-       // taskController.createTaskNew(task);
-
-       // socketApi.getAllTasks(task); // Emits to all connected clients
+    socket.on('create task', function(data) {
+        taskController.createTask(data);
     });
+
+    socket.on('delete task', function(data) {
+        taskController.deleteTask(data);
+    })
+
+    socket.on('get tasks', function(listId) {
+        console.log("getting tasks again");
+
+        taskController.getTasksSocket(listId)
+        .then(function(result) {
+            io.emit('show tasks', result);
+        })
+        .catch(function(result) {
+            console.log("error getting result: " + result);
+        });
+    })
 });
+
+socketApi.getTasks = function(listId) {
+    console.log("emitting get tasks");
+
+    io.emit('get tasks', listId);
+};
+
 
 
 module.exports = socketApi;

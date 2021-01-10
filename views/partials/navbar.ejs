@@ -1,55 +1,54 @@
-<div class="container" style="padding-bottom: 15px">
-    <nav class="navbar is-light" role="navigation" aria-label="main navigation">
-        <div class="navbar-brand">
-            <a class="navbar-item" href="/"><img src="https://cdn2.iconfinder.com/data/icons/kailoon/myicon/milk.png"
-                    style="padding-right: 5px">Day planner and organiser</a>
-            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navMenu">
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-            </a>
-        </div>
-
-        <div id="navMenu" class="navbar-menu">
-            <div class="navbar-start">
-                <a class="navbar-item" href="/">
-                    Home
-                </a>
-                
-                <a class="navbar-item" href="/lists">
-                    Lists
+<!DOCTYPE html>
+<html>
+    <div class="container" style="padding-bottom: 15px">
+        <nav class="navbar is-light" role="navigation" aria-label="main navigation">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="/"><img src="https://cdn2.iconfinder.com/data/icons/kailoon/myicon/milk.png"
+                        style="padding-right: 5px">Day planner and organiser</a>
+                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navMenu">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
                 </a>
             </div>
-
-            <% if(currentUser) { %>
-            <div class="navbar-end">
-                <div class="navbar-item">
-                    <div class="buttons">
-                        <a class="button is-link" href="/users/<%= currentUser.id %>">
-                            <strong>Logged in as
-                                <%= currentUser.username %></strong>
-                        </a>
-                        <a class="button is-light" href="/users/sign_out">
-                            Logout
-                        </a>
+    
+            <div id="navMenu" class="navbar-menu">
+                <div class="navbar-start">
+                    <a class="navbar-item" href="/">
+                        Home
+                    </a>
+                    
+                    <a class="navbar-item" href="/lists">
+                        Lists
+                    </a>
+                </div>
+    
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <div class="buttons">
+                            <a class="button is-link" href="/users/">
+                                <strong>Logged in as</strong>
+                            </a>
+                            <a class="button is-light" href="/users/sign_out">
+                                Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <div class="buttons">
+                            <a class="button is-link" href="/users/sign_up">
+                                <strong>Sign up</strong>
+                            </a>
+                            <a class="button is-light" href="/users/sign_in">
+                                Login
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
-            <% } else { %>
-            <div class="navbar-end">
-                <div class="navbar-item">
-                    <div class="buttons">
-                        <a class="button is-link" href="/users/sign_up">
-                            <strong>Sign up</strong>
-                        </a>
-                        <a class="button is-light" href="/users/sign_in">
-                            Login
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <% }%>
-        </div>
-</div>
-</nav>
-</div>
+    </div>
+    </nav>
+    </div>
+</html>
