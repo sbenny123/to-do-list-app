@@ -1,1 +1,1 @@
-web: node start
+web: bin/www
