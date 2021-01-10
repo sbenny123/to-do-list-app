@@ -7,8 +7,7 @@
 // Module dependencies
 const bodyParser = require('body-parser'); // to handle reading of form data
 const cors = require('cors');
-const createError = require('http-errors');
-const envConfig = require('dotenv').config();
+//const envConfig = require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
 const LocalStrategy = require('passport-local').Strategy;
