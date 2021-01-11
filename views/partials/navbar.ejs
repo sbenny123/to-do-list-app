@@ -23,32 +23,34 @@
                     </a>
                 </div>
     
-                <div class="navbar-end">
-                    <div class="navbar-item">
-                        <div class="buttons">
-                            <a class="button is-link" href="/users/">
-                                <strong>Logged in as</strong>
-                            </a>
-                            <a class="button is-light" href="/users/sign_out">
-                                Logout
-                            </a>
+                <% if (currentUser) { %>
+                    <div class="navbar-end">
+                        <div class="navbar-item">
+                            <div class="buttons">
+                                <a class="button is-link" href="/users/">                       
+                                    <strong>Logged in as</strong>
+                                </a>
+                                <a class="button is-light" href="/logout">
+                                    Logout
+                                </a>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="navbar-end">
-                    <div class="navbar-item">
-                        <div class="buttons">
-                            <a class="button is-link" href="/users/sign_up">
-                                <strong>Sign up</strong>
-                            </a>
-                            <a class="button is-light" href="/users/sign_in">
-                                Login
-                            </a>
+                <% } else { %> 
+                    <div class="navbar-end">
+                        <div class="navbar-item">
+                            <div class="buttons">
+                                <a class="button is-link" href="/register">
+                                    <strong>Sign up</strong>
+                                </a>
+                                <a class="button is-light" href="/login">
+                                    Login
+                                </a>
+                            </div>
                         </div>
                     </div>
-                </div>
+                <% } %> 
             </div>
-    </div>
-    </nav>
+        </nav>
     </div>
 </html>

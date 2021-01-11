@@ -11,6 +11,14 @@ const idUtils = require('../utils/id');
 const passport = require('passport');
 
 
+exports.isLoggedIn = function(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+
+    res.redirect('/login');
+}
+
 exports.showRegistration = function(req, res) {
     res.render('register');
 }
@@ -55,74 +63,19 @@ exports.showLogIn = function(req, res) {
 
 
 exports.logIn = function(req, res) {
-
-   /* var result = passport.authenticate('local') {
-
-    }
-    (req, res, function () {
-        res.redirect('/');
-    });*/
-
-    /* userModel.findOne({
-        email: req.body.email
-    }, function(err, user) {
-
-        switch (true) {
-            case (err):
-                console.log("Error logging in user: " + err);
-                break;
-            
-            case (!user):
-                console.log("User's email not found");
-                break;
-
-            default:
-                user.comparePassword(req.body.password, function(err, isMatch) {
-
-                    if (!isMatch) {
-                        console.log("Wrong password");
-
-                    } else {
-                        let token = jwt.sign(
-                            // payload data
-                            { 
-                                email: user.email, 
-                                fullName: user.fullName, 
-                                _id: user._id 
-                            }, 
-                            authConfig.secret, 
-                            { 
-                                expiresIn: 86400 // 24 hours
-                            });
-
-                            user.password = undefined;
-
-                        /*res.header("auth-token", token).json({
-                            error: null,
-                            data: {
-                              token,
-                            },
-                        });*/
-                 /*   }
-                });
-                break;
-        }
-    });*/
 };
 
-exports.logOut = function(err, res) {
+exports.logOut = function(req, res) {
     req.logOut();
 
     res.redirect('/');
 };
 
-exports.showUserProfile = function(req, res) {
-    res.render('user-profile');
-};
+
 
 
 // Update a user
-exports.updateUser = async function(req, res, next) {
+/*exports.updateUser = async function(req, res, next) {
     try {
         const id = req.params.id;
         const data = {
@@ -153,7 +106,7 @@ exports.updateUser = async function(req, res, next) {
 
         next(err);
     }
-};
+};*/
 
 
 // Get a user

@@ -14,12 +14,15 @@ const userController = require('../controllers/user.controller'); // User contro
 router.get('/register', userController.showRegistration);
 router.post('/register', userController.register);
 
+// Get login page and login user
 router.get('/login', userController.showLogIn);
-router.post('/login', passport.authenticate('local'), function(req, res) {
-    res.redirect('/lists')
-});
+router.post('/login', passport.authenticate('local', {
+    successRedirect: '/lists',
+    failureRedirect: '/login'
+}), userController.logIn);
 
-router.get('/user-profile', userController.showUserProfile);
+// Logout user
+router.get('/logout', userController.logOut);
 
 
 module.exports = router;

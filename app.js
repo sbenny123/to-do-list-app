@@ -72,6 +72,11 @@ passport.use(new LocalStrategy(userModel.authenticate()));
 passport.serializeUser(userModel.serializeUser());
 passport.deserializeUser(userModel.deserializeUser());
 
+//current User
+app.use(function (req, res, next){
+    res.locals.currentUser = req.user;
+    next();
+})
 
 // Define routes for different parts of the site
 app.use('/', indexRouter);

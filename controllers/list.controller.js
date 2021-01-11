@@ -5,9 +5,23 @@
 const listModel = require('../models/list.model');
 const idUtils = require('../utils/id');
 
+function isValidInput(data) {
+    let name = data.name || undefined;
+    let list_id = data.list_id || undefined;
+    let user_id = data.user_id || undefined;
+
+    if ((name && typeof(name) == "string") &&
+        (list_id && typeof(list_id) == "string")
+        (user_id && typeof(user_id) == "string")
+        ) {
+            return true;
+        }
+
+        return false;
+}
 
 // Create and save a list
-exports.createList = async function(req, res) {
+/*exports.createList = async function(req, res) {
     try {
         const list_id = idUtils.generateId(5);
 
@@ -25,8 +39,31 @@ exports.createList = async function(req, res) {
         console.log("Error creating list: " + err);
         res.redirect("/lists");
     }
-};
+};*/
 
+// Create and save a list
+exports.createList = async function(listData) {
+    try {
+        const list_id = idUtils.generateId(5);
+        const user_id = req.user.user_id || "";
+
+        const data = {
+            list_id: list_id,
+            name: listData.name,
+            user_id: user_id
+        };
+
+        // Create list if valid and make calls to re-update list view
+        if (isValidInput(data)) {
+            const listDoc = await listModel.create(data);
+            socketApi.getLists(user_id);
+        }
+
+    } catch (err) {
+        console.log("Error creating list: " + err);
+        res.render('error', {});
+    }
+};
 
 // Update a list
 exports.updateList = async function(req, res) {
@@ -95,6 +132,23 @@ exports.deleteList = function(req, res) {
     }
 };*/
 
+exports.getListsSocket = async function(userId) {
+    try {
+        if (userId !== null) {
+            const listDocs = listModel.find({ user_id: userId }, function(err, data) {
+                if (Array.isArray(data) && data.length > 0) {
+                    return data;
+                }
+            });
+        }
+
+        return [];
+
+    } catch (err) {
+        console.log("Error getting all lists: " + err);
+        res.render('error', {});
+    }
+};
 
 // Get all lists
 exports.getAllLists = function(req, res) {
@@ -102,7 +156,7 @@ exports.getAllLists = function(req, res) {
 
     try {
         listModel.find({ user_id: user_id }, function(err, data) {
-            res.render('list-view', { "lists": data });
+            res.render('list-view', { "lists": data, "user_id": user_id });
         });
 
     } catch (err) {
