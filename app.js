@@ -11,14 +11,17 @@ const cors = require('cors');
 const express = require('express');
 const session = require('express-session');
 const LocalStrategy = require('passport-local').Strategy;
-const mongoose = require('mongoose');
+//const mongoose = require('mongoose');
 const mongoSanitize = require('express-mongo-sanitize');
 const passport = require('passport');
 const path = require('path');
 
 // Config
 const authConfig = require('./config/auth.config');
-const dbConfig = require('./config/database.config'); // MongoDB Uri
+//const dbConfig = require('./config/database.config'); // MongoDB Uri
+
+// Models
+const userModel = require('./models/user.model');
 
 // Routers
 const indexRouter = require('./routes/index.route');
@@ -26,17 +29,17 @@ const listRouter = require('./routes/list.route');
 const taskRouter = require('./routes/task.route');
 const userRouter = require('./routes/user.route');
 
-const connectionString = (process.env.MONGO_DEV_URI) // MongoDb Connection Uri 
+//
+//const connectionString = (process.env.MONGO_DEV_URI) // MongoDb Connection Uri 
 
 // Other variables
 const app = express();
 
 
 // Connect to MongoDB
-mongoose.connect(connectionString, dbConfig.params).then(
-    () => { console.log('Connected to database successfully'); }, 
-    (err) => { console.log('Failed to connect to database: ' + err); }
-);
+/*mongoose.connect(connectionString, dbConfig.params)
+.then(() => { console.log('Connected to database successfully'); })
+.catch((err) => { console.log('Failed to connect to database: ' + err); });*/
 
 
 app.use(cors());
@@ -64,7 +67,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 // Passport config
-const userModel = require('./models/user.model');
+
 passport.use(new LocalStrategy(userModel.authenticate()));
 passport.serializeUser(userModel.serializeUser());
 passport.deserializeUser(userModel.deserializeUser());

@@ -2,10 +2,10 @@
   "name": "to-do-list-app",
   "version": "1.0.0",
   "description": "",
-  "main": "./bin/www",
+  "main": "app.js",
   "scripts": {
-    "start": "node ./bin/www",
-    "devstart": "nodemon ./bin/www",
+    "start": "node server.js",
+    "devstart": "nodemon server.js",
     "test": "mocha ./tests/**/*.js"
   },
   "repository": {

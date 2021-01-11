@@ -24,15 +24,15 @@ exports.register = async function(req, res) {
         username: req.body.username
     });
 
-    console.log(req.body);
-    var result = userModel.register(data, req.body.password, function(err, user) {
+    const result = await userModel.register(data, req.body.password, function(err, user) {
         if (err) {
             console.log('Error registering user: ' + err);
             return res.render('register');
         }
 
         passport.authenticate('local')(req, res, function () {
-          res.redirect('/user-profile');
+            console.log("User has been registered");
+            res.redirect('/lists');
         });
     });
 
