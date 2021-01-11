@@ -1,0 +1,24 @@
+{
+    "success": {
+        "integration": {
+
+        },
+        "model": {
+
+        },
+        "controller": {
+
+        }
+    },
+    "failure": {
+        "integration": {
+
+        },
+        "model": {
+
+        },
+        "controller": {
+            
+        }
+    }
+}

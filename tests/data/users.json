@@ -1,0 +1,30 @@
+{
+    "success": {
+        "integration": {
+
+        },
+        "model": {
+            "user_id": "",
+            "fullName": "",
+            "username": "",
+            "password": ""
+        },
+        "controller": {
+
+        }
+    },
+    "failure": {
+        "integration": {
+
+        },
+        "model": {
+            "user_id": "",
+            "fullName": "",
+            "username": "",
+            "password": ""
+        },
+        "controller": {
+            
+        }
+    }
+}
