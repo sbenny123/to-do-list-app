@@ -6,7 +6,6 @@ const taskModel = require('../models/task.model');
 const listModel = require('../models/list.model');
 
 
-
 /**
  * Validates data before calling Mongoose create function
  * @param {object} data 
@@ -25,28 +24,6 @@ function isValidInput(data) {
         return false;
 }
 
-// Create and save a task
-/*exports.createTask = async function(req, res) {
-    const list_id = req.body.list_id || null;
-
-    try {
-        const data = {
-            name: req.body.name || null,
-            completed: false,
-            list_id: list_id
-        };
-
-        if (isValidInput(data)) {
-            const doc = await taskModel.create(data);
-
-            res.redirect("/tasks/" + list_id);
-        }
-
-    } catch (err) {
-        console.log("Error creating task: " + err);
-        res.redirect("/tasks/" + list_id);
-    }
-};*/
 
 // Create and save a task
 exports.createTask = async function(taskData) {
@@ -112,7 +89,7 @@ exports.updateTask = async function(req, res, next) {
 // Delete a task
 exports.deleteTask = async function(taskData) {
     const socketApi = require('../config/socket.config');
-    
+
     try {
         const taskId = taskData.taskId || null;
         const listId = taskData.listId || null;

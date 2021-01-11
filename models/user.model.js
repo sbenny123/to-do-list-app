@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const bcrypt = require('bcryptjs');
 const passportLocalMongoose = require("passport-local-mongoose");
 
 
@@ -26,43 +25,6 @@ const userSchema = new mongoose.Schema({
         minlength: 6
     }
 });
-
-
-// Encrypts and stores password before creating new user
-/*userSchema.pre('save', function (next) {
-    let user = this;
-    
-    // Check if password is available and modified
-    if (user.isModified('password')) {
-
-        // Hash password
-        bcrypt.genSalt(10, function(err, salt) {
-            if (err) return next(err)
-
-            bcrypt.hash(user.password, salt, function(err, hash) {
-                if (err) return next(err)
-                user.password = hash; // hashed password is what is stored in database
-                next();
-            });
-        });
-
-    } else {
-        next();
-    }
-});*/
-
-
-/**
- * Compare entered password with hashed password - used during login
- * @param {String} enteredPassword 
- * @param {*} callBack 
- */
-/*userSchema.methods.comparePassword = function (enteredPassword, callBack) {
-    return bcrypt.compare(enteredPassword, this.password, function(err, isMatch) {
-        if (err) return callBack(err);
-        callBack(null, isMatch)
-    });
-};*/
 
 userSchema.plugin(passportLocalMongoose);
 

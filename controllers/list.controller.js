@@ -23,26 +23,6 @@ function isValidInput(data) {
         return false;
 }
 
-// Create and save a list
-/*exports.createList = async function(req, res) {
-    try {
-        const list_id = idUtils.generateId(5);
-
-        const data = {
-            list_id: list_id,
-            name: req.body.name,
-            user_id: req.user.user_id || ""
-        };
-
-        const doc = await listModel.create(data);
-
-        res.redirect("/lists");
-
-    } catch (err) {
-        console.log("Error creating list: " + err);
-        res.redirect("/lists");
-    }
-};*/
 
 // Create and save a list
 exports.createList = async function(listData) {
@@ -70,6 +50,7 @@ exports.createList = async function(listData) {
     }
 };
 
+
 // Update a list
 exports.updateList = async function(req, res) {
     try {
@@ -91,22 +72,6 @@ exports.updateList = async function(req, res) {
     }
 };
 
-
-// Delete a list
-/*exports.deleteList = function(req, res) {
-    try {
-        const id = req.params.id;
-
-        listModel.findByIdAndDelete(id);
-
-        res.redirect("/lists");
-
-
-    } catch (err) {
-        console.log("Error deleting list: " + err);
-        res.redirect("/lists");
-    }
-};*/
 
 // Delete a list
 exports.deleteList = async function(listData) {
@@ -150,6 +115,7 @@ exports.getListsSocket = async function(userId) {
         console.log("Error getting all lists: " + err);
     }
 };
+
 
 // Get all lists for user
 exports.getListsRoute = function(req, res) {
