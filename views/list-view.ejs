@@ -17,27 +17,38 @@
         <div class="container">
             <h1>Lists</h1>
             <form action="/lists/create" method="POST">
-                <input type="text" name="name">
-                <button>Add</button>
+                <div class="input-group mb3">
+                    <input type="text" name="name" class="form-control" placeholder="Type list name" aria-label="List name" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
             </form>
-            <table class="table table-bordered table-striped table-hover table-condensed table-responsive" id="listTable">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Tasks left</th>
-                        <th>Tasks completed</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% for(var i=0; i<lists.length; i++) {%>
-                        <tr>
-                            <td><a href="/tasks/<%= lists[i].list_id %>"><%= lists[i].name %></a></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
+
+            <div>
+                <% if (lists && lists.length > 0) { %>
+                    <ul class="list-group list-group-flush">
+                        <% for(var i = 0; i< lists.length; i++) {%>
+                            <li class="list-group-item"><a href="/tasks/<%= lists[i].list_id %>"><%= lists[i].name %></a></li>
                         <% } %>
-                </tbody>
-            </table>
+                    </ul>
+                <% } else { %>
+                    <div class="text-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" fill="currentColor" class="bi bi-check2-circle" viewBox="0 0 16 16">
+                            <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z"/>
+                            <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z"/>
+                        </svg>
+                        <div class="empty-state">
+                            <p class="empty-state-heading">Looks like you don't have any lists</p>
+                            <p class="empty-state-description">Add a list using the input box above</p>
+                        </div>
+                    </div>
+                <% } %>  
+            </div>
         </div>
     </body>
 </html>
