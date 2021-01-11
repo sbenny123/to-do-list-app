@@ -6,12 +6,12 @@ const should = chai.should();
 const chaiHttp = require('chai-http');
 const mongoose = require('mongoose');
 
-const data = require('../data/lists.json');
-const listController = require('../../controllers/list.controller');
+const data = require('../data/users.json');
+const userController = require('../../controllers/user.controller');
 
 chai.use(chaiHttp);
 
 
-describe('List controllers tests', function() {
+describe('User controllers tests', function() {
 
 })

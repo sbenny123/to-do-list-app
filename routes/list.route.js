@@ -13,13 +13,13 @@ const userController = require('../controllers/user.controller'); // User authen
 
 
 // Create a list
-router.post('/create/', userController.isLoggedIn, listController.createList);
+//router.post('/create/', userController.isLoggedIn, listController.createList);
 
 // Update a list
 router.post('/edit/:id', userController.isLoggedIn, listController.updateList);
 
 // Delete a list
-router.delete('/delete/:id', userController.isLoggedIn, listController.deleteList);
+//router.delete('/delete/:id', userController.isLoggedIn, listController.deleteList);
 
 // Get all lists
 router.get('/', userController.isLoggedIn, listController.getListsRoute);
