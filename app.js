@@ -85,37 +85,17 @@ app.use('/tasks', taskRouter);
 app.use('/', userRouter);
 
 
-
-/*app.use(function(req, res, next) {
-    res.header(
-        "Access-Control-Allow-Headers",
-        "x-access-token, Origin, Content-Type, Accept"
-    );
-    next();
+// 404 error handler
+app.use(function(req, res, next) {
+    res.status(404);
+    res.render('404', { url: req.url });
 });
 
-    if (req.headers && req.headers.authorization && req.headers.authorization.split(' ')[0] === 'JWT') {
-        jsonwebtoken.verify(req.headers.authorization.split(' ')[1], 'RESTFULAPIs', function(err, decode) {
-          if (err) req.user = undefined;
-          req.user = decode;
-          next();
-        });
-      } else {
-        req.user = undefined;
-        next();
-    }
-});*/
-
-// Error handler
+// All other errors handler
 app.use(function(err, req, res, next) {
-    // set locals, only providing error in development
-    //res.locals.message = err.message;
-    //res.locals.error = req.app.get('env') === 'development' ? err : {};
-  
-    // Render the error page
-    //res.status(err.status || 500);
-    console.log(err);
-    res.render('error');
+    res.status(err.status || 500);
+    res.render('500', { error: err });
 });
+
 
 module.exports = app;

@@ -3,17 +3,20 @@
  */
 
 const listModel = require('../models/list.model');
-const idUtils = require('../utils/id');
 
+
+/**
+ * Validates data before calling Mongoose create function
+ * @param {object} data 
+ */
 function isValidInput(data) {
     let name = data.name || undefined;
     let list_id = data.list_id || undefined;
     let user_id = data.user_id || undefined;
 
     if ((name && typeof(name) == "string") &&
-        (list_id && typeof(list_id) == "string")
-        (user_id && typeof(user_id) == "string")
-        ) {
+        (list_id && typeof(list_id) == "string") &&
+        (user_id && typeof(user_id) == "string")) {
             return true;
         }
 
@@ -43,9 +46,12 @@ function isValidInput(data) {
 
 // Create and save a list
 exports.createList = async function(listData) {
+    const idUtils = require('../utils/id');
+    const socketApi = require('../config/socket.config');
+
     try {
         const list_id = idUtils.generateId(5);
-        const user_id = req.user.user_id || "";
+        const user_id = listData.user_id || "";
 
         const data = {
             list_id: list_id,
@@ -61,7 +67,6 @@ exports.createList = async function(listData) {
 
     } catch (err) {
         console.log("Error creating list: " + err);
-        res.render('error', {});
     }
 };
 
@@ -88,7 +93,7 @@ exports.updateList = async function(req, res) {
 
 
 // Delete a list
-exports.deleteList = function(req, res) {
+/*exports.deleteList = function(req, res) {
     try {
         const id = req.params.id;
 
@@ -101,65 +106,73 @@ exports.deleteList = function(req, res) {
         console.log("Error deleting list: " + err);
         res.redirect("/lists");
     }
+};*/
+
+// Delete a list
+exports.deleteList = async function(listData) {
+    const socketApi = require('../config/socket.config');
+
+    try {
+        const listId = listData.listId || null;
+        const userId = listData.userId || null;
+
+        if (listId !== null) {
+            console.log("deleting task");
+
+            const taskDoc = await listModel.deleteOne({ list_id: listId });
+            socketApi.getLists(userId);
+        }
+
+    } catch (err) {
+        console.log("Error deleting task: " + err);
+    }
 };
 
 
-// Get a list
-/*exports.getList = async function(req, res, next) {
-    try {
-        const id = req.params.id;
-
-        const doc = await listModel.findById(id);
-
-
-        res.status(200).json({
-            status: 'success',
-            data: {
-                doc
-            }
-        });
-
-    } catch (err) {
-        res.status(500).json({
-            status: 'failure',
-            message: err.message,
-            data: {
-                doc
-            }
-        })
-
-        next(err);
-    }
-};*/
-
+// Get all lists for user using their user id
 exports.getListsSocket = async function(userId) {
     try {
+        let lists = [];
+
         if (userId !== null) {
-            const listDocs = listModel.find({ user_id: userId }, function(err, data) {
+            const listDocs = await listModel.find({ user_id: userId }, function(err, data) {
                 if (Array.isArray(data) && data.length > 0) {
-                    return data;
+                    lists = data;
                 }
             });
-        }
+
+            return lists;
+        } 
 
         return [];
 
     } catch (err) {
         console.log("Error getting all lists: " + err);
-        res.render('error', {});
     }
 };
 
-// Get all lists
-exports.getAllLists = function(req, res) {
-    const user_id = req.user.user_id || "";
-
+// Get all lists for user
+exports.getListsRoute = function(req, res) {
     try {
-        listModel.find({ user_id: user_id }, function(err, data) {
-            res.render('list-view', { "lists": data, "user_id": user_id });
-        });
+        let user_id = "";
 
+        if (req.user && req.user.user_id && req.user.user_id !== null) {
+            user_id = req.user.user_id;
+
+            listModel.find({ user_id: user_id }, function(err, data) {
+                if (Array.isArray(data) && data.length > 0) {
+                    res.render('list-view', { "lists": data, "user_id": user_id });
+                } else {
+                    res.render('list-view', { "lists": [], "user_id": user_id });
+                }
+            });
+
+        } else {
+            res.redirect('/login');
+        }
+        
     } catch (err) {
         console.log("Error getting all lists: " + err);
+        res.render('error');
     }
 };

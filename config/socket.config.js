@@ -4,8 +4,9 @@ let io = socket();
 const listController = require('../controllers/list.controller')
 const taskController = require('../controllers/task.controller');
 
-let socketApi = {};
-socketApi.io = io;
+let socketApi = {
+    io: io
+};
 
 
 io.on('connection', function(socket){

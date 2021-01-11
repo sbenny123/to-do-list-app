@@ -17,6 +17,7 @@
             <h1>Lists</h1>
             <form role="form" id="form_list" method="POST">
                 <div class="input-group mb3">
+                    <input type="hidden" id="hidden_user_id" name="user_id" value="<%= user_id %>">
                     <input type="text" name="name" class="form-control" id="input_name" placeholder="Type list name" aria-label="List name" aria-describedby="basic-addon2">
                     <div class="input-group-append">
                         <button type="submit" class="btn btn-outline-secondary">
@@ -28,13 +29,30 @@
                 </div>
             </form>
 
-            <div>
+            <div id="lists">
                 <% if (lists && lists.length > 0) { %>
-                    <ul class="list-group list-group-flush">
-                        <% for(var i = 0; i< lists.length; i++) {%>
-                            <li class="list-group-item"><a href="/tasks/<%= lists[i].list_id %>"><%= lists[i].name %></a></li>
-                        <% } %>
-                    </ul>
+                    <div class="row">
+                        <ul class="list-group list-group-flush">
+                            <% for(var i = 0; i< lists.length; i++) {%>
+                                <li class="list-group-item">
+                                    <div class="col-12 col-md-8">
+                                        <a href="/tasks/<%= lists[i].list_id %>"><%= lists[i].name %></a>
+                                    </div>               
+                                    <div class="dropdown col-6 col-md-4">
+                                        <button type="button" class="btn btn-secondary" id="btn_more_actions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
+                                                <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+                                            </svg>
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="btn_more_actions">
+                                            <button type="button" class="dropdown-item" id="btn_edit" onclick="editList('<%= lists[i] %>')">Edit list</button>
+                                            <button type="button" class="dropdown-item" id="btn_delete" onclick="deleteList('<%= lists[i].list_id %>', '<%= lists[i].user_id %>')">Delete list</button>
+                                        </div>
+                                    </div>
+                                </li>
+                            <% } %>
+                        </ul>
+                    </div>
                 <% } else { %>
                     <div class="text-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" fill="currentColor" class="bi bi-check2-circle" viewBox="0 0 16 16">

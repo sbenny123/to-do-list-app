@@ -42,30 +42,40 @@ $(function(){
                                     </span>
                                 </label>
                             </div>
-                        <div class="dropdown col-6 col-md-4">
-                        <button type="button" class="btn btn-secondary" id="btn_more_actions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
-                                <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
-                            </svg>
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="btn_more_actions">
-                        <button type="button" class="dropdown-item" id="btn_edit" onclick="editTask('${data[i]._id}')">Edit item</button>
-                        <button type="button" class="dropdown-item" id="btn_delete" onclick="deleteTask('${data[i]._id}', '${data[i].list_id}')">Delete item</button>
+                            <div class="dropdown col-6 col-md-4">
+                                <button type="button" class="btn btn-secondary" id="btn_more_actions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
+                                        <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+                                    </svg>
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="btn_more_actions">
+                                    <button type="button" class="dropdown-item" id="btn_edit" onclick="editTask('${data[i]._id}')">Edit item</button>
+                                    <button type="button" class="dropdown-item" id="btn_delete" onclick="deleteTask('${data[i]._id}', '${data[i].list_id}')">Delete item</button>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>`);
+                    </div>`);
            }
        }
     });
 });
 
-function editTask(id) {
-    socket.emit('edit task', id);
+
+function showEdit() {
+
 }
 
-function deleteTask(id, listId) {
+function editTask(listId, userId) {
+    /*let data = {
+
+    };
+
+    socket.emit('edit task', id);*/
+}
+
+function deleteTask(taskId, listId) {
     let data = {
-        id: id,
+        taskId: taskId,
         listId: listId
     };
 

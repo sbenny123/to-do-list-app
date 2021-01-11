@@ -5,10 +5,12 @@
 const taskModel = require('../models/task.model');
 const listModel = require('../models/list.model');
 
-const socketApi = require('../config/socket.config');
 
 
-
+/**
+ * Validates data before calling Mongoose create function
+ * @param {object} data 
+ */
 function isValidInput(data) {
     let name = data.name || undefined;
     let completed = data.completed || false;
@@ -49,6 +51,7 @@ function isValidInput(data) {
 // Create and save a task
 exports.createTask = async function(taskData) {
     try {
+        const socketApi = require('../config/socket.config');
         const list_id = taskData.list_id || null;
 
         const data = {
@@ -65,7 +68,6 @@ exports.createTask = async function(taskData) {
 
     } catch (err) {
         console.log("Error creating task: " + err);
-        res.render('error', {});
     }
 };
 
@@ -108,39 +110,12 @@ exports.updateTask = async function(req, res, next) {
 
 
 // Delete a task
-/*exports.deleteTask = async function(req, res, next) {
-    try {
-        const id = req.params.id;
-
-        const doc = await taskModel.findByIdAndDelete(id);
-
-
-        res.status(204).json({
-            status: 'success',
-            data: null
-        });
-
-    } catch (err) {
-        res.status(500).json({
-            status: 'failure',
-            message: err.message,
-            data: {
-                doc
-            }
-        })
-
-        next(err);
-    }
-};*/
-
-
-// Delete a task
 exports.deleteTask = async function(taskData) {
+    const socketApi = require('../config/socket.config');
+    
     try {
-        const taskId = taskData.id || null;
+        const taskId = taskData.taskId || null;
         const listId = taskData.listId || null;
-
-        console.log(taskData);
 
         if (taskId !== null) {
             console.log("deleting task");
@@ -256,6 +231,5 @@ exports.getTasksSocket = async function(listId) {
         
     } catch (err) {
         console.log("Error getting all tasks for list: " + err);
-        res.render('error', {});
     }
 };

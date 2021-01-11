@@ -21,10 +21,8 @@ router.post('/edit/:id', userController.isLoggedIn, listController.updateList);
 // Delete a list
 router.delete('/delete/:id', userController.isLoggedIn, listController.deleteList);
 
-// Get a list
-//router.get('/view/:id', listController.getList);
-
 // Get all lists
-router.get('/', listController.getAllLists);
+router.get('/', userController.isLoggedIn, listController.getListsRoute);
+
 
 module.exports = router;
