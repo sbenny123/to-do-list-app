@@ -1,3 +1,21 @@
-.nav-item-first-right {
+.nav-item .nav-link {
     padding-right: 15px;
+    color: white;
+}
+
+.main-bg {
+    background-color: #422061;
+}
+
+.has-error label,
+.has-error input,
+.has-error textarea {
+    color: red;
+    border-color: red;   
+}
+
+.list-unstyled li {            
+    font-size: 13px;    
+    padding: 4px 0 0;   
+    color: red;
 }
