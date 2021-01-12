@@ -49,17 +49,11 @@ $(function(){
                                 <a href="/tasks/${data[i].list_id}">${data[i].name}</a>
                             </div>
                             <div class="col-2">
-                                <div class="dropdown">
-                                    <button type="button" class="btn btn-secondary" id="btn_more_actions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
-                                            <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
-                                        </svg>
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="btn_more_actions">
-                                        <button type="button" class="dropdown-item" id="btn_edit" onclick="showEdit()">Edit list</button>
-                                        <button type="button" class="dropdown-item" id="btn_delete" onclick="deleteList('${data[i].list_id}', '${data[i].user_id}')">Delete list</button>
-                                    </div>
-                                </div>
+                                <button type="button" class="btn btn-primary" id="btn_delete" onclick="deleteList('${data[i].list_id}', '${data[i].user_id}')">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                                    </svg>
+                                </button>
                             </div>
                         </div>
                     </li>`;
@@ -87,7 +81,6 @@ $(function(){
 
 
 function showEdit(data) {
-    console.log(data);
 }
 
 

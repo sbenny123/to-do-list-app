@@ -1,3 +1,4 @@
+
 const expect = require('chai').expect;
 
 const taskModel = require('../../models/task.model');
@@ -14,4 +15,5 @@ describe('Task model tests', function() {
             done();
         });
     });
-})
+
+});

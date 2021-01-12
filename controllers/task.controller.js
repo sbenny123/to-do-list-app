@@ -88,8 +88,6 @@ exports.deleteTask = async function(taskData) {
         const listId = taskData.listId || null;
 
         if (taskId !== null) {
-            console.log("deleting task");
-
             const taskDoc = await taskModel.findByIdAndDelete(taskId);
             socketApi.getTasks(listId);
         }
