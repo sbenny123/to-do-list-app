@@ -32,12 +32,13 @@ $(function(){
    // Update the html after retrieving data from controller functions
    socket.on('show tasks', function(data) {
        let tasksViewDiv = $('#tasks');
+       let content = "";
 
        tasksViewDiv.html("");
 
-       if (data.length > 0) {
+       if (data && data.length > 0) {
            for (var i = 0; i < data.length; i++) {
-               let content = 
+               content += 
                `<div class="list-group-item container">
                     <div class="row">
                         <div class="col-12 col-md-8">
@@ -65,10 +66,24 @@ $(function(){
     </div>
 </div>`;
 
-                tasksViewDiv.append(content);
+            }
+            
+        } else {
+            content +=
+            `<div class="text-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" fill="currentColor" class="bi bi-card-checklist" viewBox="0 0 16 16">
+                    <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
+                    <path d="M7 5.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0zM7 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0z"/>
+                </svg>
+                <div class="empty-state">
+                    <p class="empty-state-heading">Looks like you don't have any tasks</p>
+                    <p class="empty-state-description">Add a task using the input box above</p>
+                </div>
+            </div>`;
 
            }
-       }
+
+           tasksViewDiv.append(content);
     });
 });
 

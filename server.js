@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const path = require('path');
 
 dotenv.config();
-const connectionString = process.env.MONGO_DEV_URI || ""; // MongoDb Connection Uri 
+const connectionString = process.env.MONGO_PROD_URI || ""; // MongoDb Connection Uri 
 
 const app = require('./app');
 const socketApi = require('./config/socket.config'); // Socket configuration and events
