@@ -50,38 +50,30 @@ exports.createTask = async function(taskData) {
 
 
 // Update a task
-exports.updateTask = async function(req, res, next) {
-    try {
-        const id = req.params.id;
-        const data = {
-            name: req.body.name,
-            status: req.body.status,
-            list_id: req.body.list_id
-        };
+exports.updateTask = async function(taskData) {
+    const socketApi = require('../config/socket.config');
 
-        const doc = await taskModel.findByIdAndUpdate(id, data, {
+    try {
+        const id = taskData.taskId;
+        const list_id = taskData.listId;
+        const data = {};
+
+        if (taskData.name !== undefined) {
+            data.name = taskData.name;
+        }
+
+        if (taskData.completed !== undefined) {
+            data.completed = taskData.completed;
+        }
+
+        const taskDoc = await taskModel.findByIdAndUpdate(id, data, {
             new: true, // updated data is returned to function
             runValidators: true
         });
-
-
-        res.status(200).json({
-            status: 'success',
-            data: {
-                doc
-            }
-        });
+        socketApi.getTasks(list_id);
 
     } catch (err) {
-        res.status(500).json({
-            status: 'failure',
-            message: err.message,
-            data: {
-                doc
-            }
-        })
-
-        next(err);
+        console.log("Error updating task: " + err);
     }
 };
 

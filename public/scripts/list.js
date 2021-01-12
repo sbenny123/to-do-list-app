@@ -74,8 +74,8 @@ $(function(){
 });
 
 
-function showEdit() {
-    
+function showEdit(data) {
+    console.log(data);
 }
 
 function editList(listData) {

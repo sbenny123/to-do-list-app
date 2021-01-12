@@ -42,6 +42,10 @@ io.on('connection', function(socket){
         taskController.createTask(data);
     });
 
+    socket.on('update task', function(data) {
+        taskController.updateTask(data);
+    })
+
     socket.on('delete task', function(data) {
         taskController.deleteTask(data);
     })
