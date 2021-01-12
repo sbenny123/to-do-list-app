@@ -38,3 +38,20 @@
 .form-errors {
     color: red;
 }
+
+.empty-state {
+    margin-top: 200px;
+}
+
+.input-group-items {
+    padding-top: 15px;
+}
+
+.btn-right {
+    text-align: right;
+}
+
+.text-decoration-none {
+    font-weight: 500;
+    color: rgb(54, 38, 54);
+}
