@@ -3,12 +3,12 @@
  */
 
 
-// Module dependencies
-const express = require('express');
+    // Module dependencies
+    const express = require('express');
 
-const router = express.Router(); // Express Router object
-const taskController = require('../controllers/task.controller'); // Task controller
-const userController = require('../controllers/user.controller');
+    const router = express.Router(); // Express Router object
+    const taskController = require('../controllers/task.controller'); // Task controller
+    const userController = require('../controllers/user.controller');
 
     // Create a task
     //router.post('/create', taskController.createTaskNew);
@@ -18,6 +18,7 @@ const userController = require('../controllers/user.controller');
 
     // Delete a task
     //router.delete('/remove/:id', taskController.deleteTask);
+    
 
     // Get all tasks
     router.get('/:list_id', userController.isLoggedIn, taskController.getTasksRoute);

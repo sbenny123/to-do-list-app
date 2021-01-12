@@ -9,10 +9,11 @@
         <title>Lists</title>
 
         <link rel="apple-touch-icon" href="images/tick-purple-circle.png">
-        <link rel="stylesheet" href="/stylesheets/style.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" 
         integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" 
         crossorigin="anonymous">
+        <link rel="stylesheet" href="/stylesheets/style.css">
+        <link rel="stylesheet" href="/stylesheets/style-tasks.css">
     </head>
 
     <body>
@@ -34,19 +35,18 @@
                 </div>
             </form>
  
-            <div class="list-group checkbox-list-group" id="tasks">   
+            <div class="list-group checkbox-list-group" id="tasks"> 
                     <% for(var i = 0; i < tasks.length; i++) {%>  
                         <div class="list-group-item container">
                             <div class="row">
                                 <div class="col-12 col-md-8">
                                     <label>
                                         <% if (tasks[i].completed) { %>
-                                            <input type="checkbox" checked onclick="toggleCheckbox('<%= tasks[i]._id %>', '<%= tasks[i].list_id %>', 'false')">
+                                            <input type="checkbox" class="checked" checked onclick="toggleCheckbox('<%= tasks[i]._id %>', '<%= tasks[i].list_id %>', 'false')">
                                         <% } else { %>
                                             <input type="checkbox" onclick="toggleCheckbox('<%= tasks[i]._id %>', '<%= tasks[i].list_id %>', 'true')">
                                         <% } %>
-                                        <span class="list-group-item-text">
-                                            <i class="fa fa-fw"></i>                              
+                                        <span class="list-group-item-text">                            
                                             <%= tasks[i].name %>
                                         </span>
                                     </label>

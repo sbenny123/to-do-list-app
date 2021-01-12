@@ -44,14 +44,13 @@ $(function(){
                             <label>`;
                          
                 if (data[i].completed) {
-                    content +=`<input type="checkbox" checked onclick="toggleCheckbox('${data[i]._id}', '${data[i].list_id}', 'false')">`;
+                    content +=`<input type="checkbox" class="checked" checked onclick="toggleCheckbox('${data[i]._id}', '${data[i].list_id}', 'false')">`;
                 } else {
                     content += `<input type="checkbox" onclick="toggleCheckbox('${data[i]._id}', '${data[i].list_id}', 'true')">`;
                 }
                                     
                 content += 
-                `<span class="list-group-item-text">
-                    <i class="fa fa-fw"></i>                              
+                `<span class="list-group-item-text">                              
                     ${data[i].name}                                
                 </span>
             </label>
