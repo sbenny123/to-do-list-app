@@ -3,6 +3,8 @@
  */
 
 const listModel = require('../models/list.model');
+const idUtils = require('../utils/id');
+const modelConfig = require('../config/models.config');
 
 
 /**
@@ -26,11 +28,10 @@ function isValidInput(data) {
 
 // Create and save a list
 exports.createList = async function(listData) {
-    const idUtils = require('../utils/id');
     const socketApi = require('../config/socket.config');
 
     try {
-        const list_id = idUtils.generateId(5);
+        const list_id = idUtils.generateId(modelConfig.LIST_ID_LENGTH);
         const user_id = listData.user_id || "";
 
         const data = {
@@ -38,6 +39,8 @@ exports.createList = async function(listData) {
             name: listData.name,
             user_id: user_id
         };
+
+
 
         // Create list if valid and make calls to re-update list view
         if (isValidInput(data)) {

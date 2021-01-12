@@ -1,19 +1,57 @@
+
 const expect = require('chai').expect;
-const should = require('should');
+
+//const dotenv = require('dotenv');
+//const mongoose = require('mongoose');
+
+//dotenv.config();
+//const connectionString = process.env.MONGO_DEV_URI || ""; // MongoDb Connection Uri 
 
 const data = require('../data/users.json');
 const userModel = require('../../models/user.model');
 
 
 describe('User model tests', function() {
+  
+ /* before(function (done) {
+    this.timeout(6000);
 
-    it('Should be invalid if email is empty', function(done) {
-        var user = new userModel();
+    mongoose.connect(connectionString, {
+        useCreateIndex: true,
+        useFindAndModify: false,
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    });
 
-        user.validate(function(err) {
-            expect(err.errors.username).to.exist;
-            done();
-        })
-    })
+    const db = mongoose.connection;
+    db.on('error', console.error.bind(console, 'connection error'));
+    db.once('open', function() {
+      console.log('We are connected to test database!');
+      done();
+    });
+  });*/
 
-})
+
+  it('Should be invalid if user_id, fullName, username or password are empty', function(done) {
+    var user = new userModel();
+
+    user.validate(function(err) {
+        expect(err.errors.user_id).to.exist;
+        expect(err.errors.fullName).to.exist;
+        expect(err.errors.username).to.exist;
+        expect(err.errors.password).to.exist;
+        done();
+    });
+  });
+
+
+  /*it('Should be invalid if user_id is not unique', function(done) {
+    var testData = data.failure.model.unique;
+
+    userModel.create([testData, testData], function(err) {
+        expect(err).to.exist;
+        expect(err.code).to.equal(11000);
+        done();
+    });
+  });*/
+});

@@ -4,7 +4,7 @@
 
         },
         "model": {
-            
+
         },
         "controller": {
 
@@ -15,7 +15,11 @@
 
         },
         "model": {
-
+            "unique": {
+                "list_id": "1234",
+                "name": "Testy McTest",
+                "user_id": "1234"
+            }
         },
         "controller": {
             

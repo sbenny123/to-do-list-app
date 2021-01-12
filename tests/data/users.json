@@ -18,10 +18,12 @@
 
         },
         "model": {
-            "user_id": "",
-            "fullName": "",
-            "username": "",
-            "password": ""
+            "unique": {
+                "user_id": "1234",
+                "fullName": "Testy McTest",
+                "username": "test@email.com",
+                "password": "testypassword"
+            }
         },
         "controller": {
             

@@ -1,7 +1,5 @@
 const expect = require('chai').expect;
-const should = require('should');
 
-const data = require('../data/tasks.json');
 const taskModel = require('../../models/task.model');
 
 
@@ -12,8 +10,8 @@ describe('Task model tests', function() {
 
         task.validate(function(err) {
             expect(err.errors.name).to.exist;
+            expect(err.errors.list_id).to.exist;
             done();
-        })
-    })
-
+        });
+    });
 })

@@ -5,6 +5,7 @@
 const passport = require('passport');
 const userModel = require('../models/user.model');
 const idUtils = require('../utils/id');
+const modelConfig = require('../config/models.config');
 
 
 exports.isLoggedIn = function(req, res, next) {
@@ -22,7 +23,7 @@ exports.showRegistration = function(req, res) {
 
 
 exports.register = async function(req, res) {
-    const user_id = idUtils.generateId(6);
+    const user_id = idUtils.generateId(modelConfig.USER_ID_LENGTH);
     const data = new userModel({                   
         user_id: user_id,
         fullName: req.body.fullName,
