@@ -7,6 +7,17 @@
     background-color: #422061;
 }
 
+.btn-primary {
+    background-color: #422061;
+    border-color: #351553;
+}
+
+.btn-primary.disabled, .btn-primary:disabled {
+    background-color: #8c6baa;
+    border-color: #7a5294;
+}
+
+
 .has-error label,
 .has-error input,
 .has-error textarea {
@@ -17,5 +28,13 @@
 .list-unstyled li {            
     font-size: 13px;    
     padding: 4px 0 0;   
+    color: red;
+}
+
+.form-group {
+    padding-bottom: 15px;
+}
+
+.form-errors {
     color: red;
 }

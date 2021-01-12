@@ -28,12 +28,17 @@ $(function(){
 
        listsViewDiv.html("");
 
+       let content = "";
+
+       console.log(data);
+       
        if (data && data.length > 0) {
-           listsViewDiv.append(`<div class="row">
-                                    <ul class="list-group list-group-flush">`);
+           content += 
+           `<div class="row">
+            <ul class="list-group list-group-flush">`;
 
            for (var i = 0; i < data.length; i++) {
-               listsViewDiv.append(
+               content +=
                    `<li class="list-group-item">
                         <div class="row">
                             <div class="col-10">                           
@@ -53,12 +58,13 @@ $(function(){
                                 </div>
                             </div>
                         </div>
-                    </li>`);
+                    </li>`;
             }
-            listsViewDiv.append(`</ul>`);
+            
+            content += `</ul>`;
 
         } else {    
-            listsViewDiv.html(
+            content +=
                 `<div class="text-center">
                     <svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" fill="currentColor" class="bi bi-card-checklist" viewBox="0 0 16 16">
                         <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
@@ -68,8 +74,10 @@ $(function(){
                         <p class="empty-state-heading">Looks like you don't have any lists</p>
                         <p class="empty-state-description">Add a list using the input box above</p>
                     </div>
-                </div>`);
+                </div>`;
         }
+
+        listsViewDiv.append(content);
     });
 });
 

@@ -18,7 +18,7 @@ exports.isLoggedIn = function(req, res, next) {
 
 
 exports.showRegistration = function(req, res) {
-    res.render('register');
+    res.render('register', { error: null});
 }
 
 
@@ -32,8 +32,9 @@ exports.register = async function(req, res) {
 
     const result = await userModel.register(data, req.body.password, function(err, user) {
         if (err) {
-            console.log('Error registering user: ' + err);
-            return res.render('register');
+            console.log('Error registering user: ' + err.message);
+
+            return res.render('register', { error: err.name });
         }
 
         passport.authenticate('local')(req, res, function () {

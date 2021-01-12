@@ -26,8 +26,6 @@ io.on('connection', function(socket){
     })
 
     socket.on('get lists', function(userId) {
-        console.log("getting lists again");
-
         listController.getListsSocket(userId)
         .then(function(result) {
             io.emit('show lists', result);
@@ -51,8 +49,6 @@ io.on('connection', function(socket){
     })
 
     socket.on('get tasks', function(listId) {
-        console.log("getting tasks again");
-
         taskController.getTasksSocket(listId)
         .then(function(result) {
             io.emit('show tasks', result);
@@ -64,14 +60,10 @@ io.on('connection', function(socket){
 });
 
 socketApi.getTasks = function(listId) {
-    console.log("emitting get tasks");
-
     io.emit('get tasks', listId);
 };
 
 socketApi.getLists = function(userId) {
-    console.log("emitting get lists");
-
     io.emit('get lists', userId);
 };
 

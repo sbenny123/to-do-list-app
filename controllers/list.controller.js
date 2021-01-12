@@ -40,8 +40,6 @@ exports.createList = async function(listData) {
             user_id: user_id
         };
 
-
-
         // Create list if valid and make calls to re-update list view
         if (isValidInput(data)) {
             const listDoc = await listModel.create(data);
@@ -85,8 +83,6 @@ exports.deleteList = async function(listData) {
         const userId = listData.userId || null;
 
         if (listId !== null) {
-            console.log("deleting task");
-
             const taskDoc = await listModel.deleteOne({ list_id: listId });
             socketApi.getLists(userId);
         }
@@ -99,20 +95,19 @@ exports.deleteList = async function(listData) {
 
 // Get all lists for user using their user id
 exports.getListsSocket = async function(userId) {
-    try {
-        let lists = [];
+    try {           
+        let listDocs = () => ( listModel.find({ user_id: userId }).exec() );
 
-        if (userId !== null) {
+        return await listDocs();
+
+        /*if (userId !== null) {
             const listDocs = await listModel.find({ user_id: userId }, function(err, data) {
                 if (Array.isArray(data) && data.length > 0) {
                     lists = data;
+                    return lists;
                 }
             });
-
-            return lists;
-        } 
-
-        return [];
+        } */
 
     } catch (err) {
         console.log("Error getting all lists: " + err);

@@ -7,18 +7,16 @@
 // Module dependencies
 const bodyParser = require('body-parser'); // to handle reading of form data
 const cors = require('cors');
-//const envConfig = require('dotenv').config();
 const express = require('express');
+const flash = require('connect-flash');
 const session = require('express-session');
 const LocalStrategy = require('passport-local').Strategy;
-//const mongoose = require('mongoose');
 const mongoSanitize = require('express-mongo-sanitize');
 const passport = require('passport');
 const path = require('path');
 
 // Config
 const authConfig = require('./config/auth.config');
-//const dbConfig = require('./config/database.config'); // MongoDB Uri
 
 // Models
 const userModel = require('./models/user.model');
@@ -53,6 +51,8 @@ app.use(session({
     resave: false,
     saveUninitialized: false
 }));
+app.use(flash());
+
 
 // Setup view engine
 app.set('views', path.join(__dirname, 'views'));
@@ -67,7 +67,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 // Passport config
-
 passport.use(new LocalStrategy(userModel.authenticate()));
 passport.serializeUser(userModel.serializeUser());
 passport.deserializeUser(userModel.deserializeUser());
@@ -93,6 +92,7 @@ app.use(function(req, res, next) {
 
 // All other errors handler
 app.use(function(err, req, res, next) {
+    console.log(err);
     res.status(err.status || 500);
     res.render('500', { error: err });
 });
