@@ -28,6 +28,10 @@ io.on('connection', function(socket){
         listController.createList(data);
     });
 
+    socket.on('update list', function(data) {
+        listController.updateList(data);
+    });
+
     socket.on('delete list', function(data) {
         listController.deleteList(data);
     })
@@ -45,7 +49,7 @@ io.on('connection', function(socket){
 
 
     /**
-     * Task socket calls - for creation, deletion and getting latest tasks
+     * Task socket calls - for creation, updating, deletion and getting latest tasks
      */
     socket.on('create task', function(data) {
         taskController.createTask(data);

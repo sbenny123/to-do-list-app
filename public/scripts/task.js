@@ -93,11 +93,14 @@ function toggleCheckbox(taskId, listId, isCompleted) {
 }
 
 
-function editTask(listId, userId) {
+function editTask(taskId, listId, taskName) {
     let data = {
+        taskId: taskId,
+        listId: listId,
+        taskName: taskName
     };
 
-    socket.emit('edit task', id);
+    socket.emit('edit task', data);
 }
 
 

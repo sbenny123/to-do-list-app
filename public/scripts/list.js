@@ -91,8 +91,14 @@ function showEdit(data) {
 }
 
 
-function editList(listData) {
-    //socket.emit('edit list', id);
+function editList(listId, userId, listName) {
+    let data = {
+        listId: listId,
+        userId: userId,
+        listName: listName
+    };
+
+    socket.emit('edit list', data);
 }
 
 

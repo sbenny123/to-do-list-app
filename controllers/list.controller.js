@@ -52,24 +52,28 @@ exports.createList = async function(listData) {
 };
 
 
-// Update a list
-exports.updateList = async function(req, res) {
+// Update a list and get updated view
+exports.updateList = async function(listData) {
+    const socketApi = require('../config/socket.config'); // for emitting 'get lists'
+
     try {
-        const id = req.params.id;
+        const id = listData.listId;
+        const userId = listData.userId;
+
         const data = {
-            name: req.body.name
+            list_id: id,
+            user_id: userId,
+            name: listData.listName
         };
 
-        const doc = await listModel.findByIdAndUpdate(id, data, {
+        const taskDoc = await taskModel.findByIdAndUpdate(id, data, {
             new: true, // updated data is returned to function
             runValidators: true
         });
-
-        res.redirect("/lists");
+        socketApi.getLists(userId);
 
     } catch (err) {
-        console.log("Error creating list: " + err);
-        res.redirect("/lists");
+        console.log("Error updating list: " + err);
     }
 };
 
