@@ -3,7 +3,7 @@
  */
 
 const listModel = require('../models/list.model');
-const idUtils = require('../utils/id');
+const idUtils = require('../utils/id'); // for generating list id
 const modelConfig = require('../config/models.config');
 
 
@@ -26,9 +26,9 @@ function isValidInput(data) {
 }
 
 
-// Create and save a list
+// Create and save a list and re-update view using socket.io
 exports.createList = async function(listData) {
-    const socketApi = require('../config/socket.config');
+    const socketApi = require('../config/socket.config'); // for emitting 'get lists'
 
     try {
         const list_id = idUtils.generateId(modelConfig.LIST_ID_LENGTH);
@@ -40,7 +40,7 @@ exports.createList = async function(listData) {
             user_id: user_id
         };
 
-        // Create list if valid and make calls to re-update list view
+        // Create list and make calls to re-update list view if the data is valid
         if (isValidInput(data)) {
             const listDoc = await listModel.create(data);
             socketApi.getLists(user_id);
@@ -74,9 +74,9 @@ exports.updateList = async function(req, res) {
 };
 
 
-// Delete a list
+// Delete a list and reupdate view using socket.io
 exports.deleteList = async function(listData) {
-    const socketApi = require('../config/socket.config');
+    const socketApi = require('../config/socket.config'); // for emitting 'get lists'
 
     try {
         const listId = listData.listId || null;
@@ -100,15 +100,6 @@ exports.getListsSocket = async function(userId) {
 
         return await listDocs();
 
-        /*if (userId !== null) {
-            const listDocs = await listModel.find({ user_id: userId }, function(err, data) {
-                if (Array.isArray(data) && data.length > 0) {
-                    lists = data;
-                    return lists;
-                }
-            });
-        } */
-
     } catch (err) {
         console.log("Error getting all lists: " + err);
     }
@@ -116,6 +107,7 @@ exports.getListsSocket = async function(userId) {
 
 
 // Get all lists for user
+// This is used by the '/lists' route - doesn't use socket.io
 exports.getListsRoute = function(req, res) {
     try {
         let user_id = "";
@@ -137,6 +129,6 @@ exports.getListsRoute = function(req, res) {
         
     } catch (err) {
         console.log("Error getting all lists: " + err);
-        res.render('error');
+        res.render('500', { error: err });
     }
 };

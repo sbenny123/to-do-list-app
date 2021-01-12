@@ -1,6 +1,9 @@
 const socket = io();
 
 $(function(){
+    /**
+     * Creation of list and getting new view using socket.io
+     */
     var createForm = $('#form_list');
 
     createForm.submit(function(e) {
@@ -19,22 +22,23 @@ $(function(){
         listName.val("");
    });
 
+
+   // Make call back to server to get the lists
    socket.on('get lists', function(id) {
        socket.emit('get lists', id);
    });
 
-   socket.on('show lists', function(data) {
-      let listsViewDiv = $('#lists');
 
-       listsViewDiv.html("");
+   // Update the html after retrieving data from controller functions
+   socket.on('show lists', function(data) {     
+    let listsViewDiv = $('#lists');
+    let content = "";
 
-       let content = "";
+    listsViewDiv.html("");
 
-       console.log(data);
-       
-       if (data && data.length > 0) {
-           content += 
-           `<div class="row">
+    if (data && data.length > 0) {
+       content += 
+       `<div class="row">
             <ul class="list-group list-group-flush">`;
 
            for (var i = 0; i < data.length; i++) {
@@ -86,10 +90,13 @@ function showEdit(data) {
     console.log(data);
 }
 
+
 function editList(listData) {
     //socket.emit('edit list', id);
 }
 
+
+// Emit delete list call to delete the list and re-update the view without refreshing
 function deleteList(listId, userId) {
     let data = {
         listId: listId,

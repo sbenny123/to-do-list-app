@@ -1,6 +1,9 @@
 const socket = io();
 
 $(function(){
+    /**
+     * Creation of task and getting new view using socket.io
+     */
     var createForm = $('#form_task');
 
     createForm.submit(function(e) {
@@ -19,10 +22,14 @@ $(function(){
         taskName.val("");
    });
 
+
+   // Make call back to server to get the tasks
    socket.on('get tasks', function(id) {
        socket.emit('get tasks', id);
    });
 
+
+   // Update the html after retrieving data from controller functions
    socket.on('show tasks', function(data) {
        let tasksViewDiv = $('#tasks');
 
@@ -72,12 +79,11 @@ $(function(){
 
 
 function showEdit() {
-
 }
 
+
+// Update task to be completed - doesn't delete task but marks as "completed"
 function toggleCheckbox(taskId, listId, isCompleted) {
-    console.log('calling toggle checkbox');
-    console.log('task completed: ' + isCompleted);
     let data = {
         taskId: taskId,
         listId: listId,
@@ -87,6 +93,7 @@ function toggleCheckbox(taskId, listId, isCompleted) {
     socket.emit('update task', data);
 }
 
+
 function editTask(listId, userId) {
     let data = {
     };
@@ -94,6 +101,8 @@ function editTask(listId, userId) {
     socket.emit('edit task', id);
 }
 
+
+// Emit delete task call to delete the task and re-update the view without refreshing
 function deleteTask(taskId, listId) {
     let data = {
         taskId: taskId,

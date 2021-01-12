@@ -1,3 +1,7 @@
+/**
+ * Socket.io initialisation, calls and associated functions
+ * Other parts of the project can use this file to emit calls
+ */
 const socket = require('socket.io');
 let io = socket();
 
@@ -17,6 +21,9 @@ io.on('connection', function(socket){
     });
 
 
+    /**
+     * List socket calls - for creation, deletion and getting latest lists
+     */
     socket.on('create list', function(data) {
         listController.createList(data);
     });
@@ -28,6 +35,7 @@ io.on('connection', function(socket){
     socket.on('get lists', function(userId) {
         listController.getListsSocket(userId)
         .then(function(result) {
+            // Updates html content in list-view with the lists retrieved
             io.emit('show lists', result);
         })
         .catch(function(result) {
@@ -36,6 +44,9 @@ io.on('connection', function(socket){
     })
 
 
+    /**
+     * Task socket calls - for creation, deletion and getting latest tasks
+     */
     socket.on('create task', function(data) {
         taskController.createTask(data);
     });
@@ -51,6 +62,7 @@ io.on('connection', function(socket){
     socket.on('get tasks', function(listId) {
         taskController.getTasksSocket(listId)
         .then(function(result) {
+            // Updates html content in task-view with the tasks retrieved
             io.emit('show tasks', result);
         })
         .catch(function(result) {

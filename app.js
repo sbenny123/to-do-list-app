@@ -27,18 +27,8 @@ const listRouter = require('./routes/list.route');
 const taskRouter = require('./routes/task.route');
 const userRouter = require('./routes/user.route');
 
-//
-//const connectionString = (process.env.MONGO_DEV_URI) // MongoDb Connection Uri 
-
 // Other variables
 const app = express();
-
-
-// Connect to MongoDB
-/*mongoose.connect(connectionString, dbConfig.params)
-.then(() => { console.log('Connected to database successfully'); })
-.catch((err) => { console.log('Failed to connect to database: ' + err); });*/
-
 
 app.use(cors());
 app.use(bodyParser.json()); // Parses requests of content-type - application/json

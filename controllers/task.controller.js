@@ -25,10 +25,10 @@ function isValidInput(data) {
 }
 
 
-// Create and save a task
+// Create and save a task and re-update the view using socket.io
 exports.createTask = async function(taskData) {
     try {
-        const socketApi = require('../config/socket.config');
+        const socketApi = require('../config/socket.config'); // for emitting 'get tasks'
         const list_id = taskData.list_id || null;
 
         const data = {
@@ -51,17 +51,18 @@ exports.createTask = async function(taskData) {
 
 // Update a task
 exports.updateTask = async function(taskData) {
-    const socketApi = require('../config/socket.config');
+    const socketApi = require('../config/socket.config'); // for emitting 'get tasks'
 
     try {
         const id = taskData.taskId;
         const list_id = taskData.listId;
         const data = {};
 
+        // Depending on the data to update, the other one is removed
+        // E.g. when checkbox is ticket, name is not included with request params
         if (taskData.name !== undefined) {
             data.name = taskData.name;
         }
-
         if (taskData.completed !== undefined) {
             data.completed = taskData.completed;
         }
@@ -78,9 +79,9 @@ exports.updateTask = async function(taskData) {
 };
 
 
-// Delete a task
+// Delete a task and re-update the view using socket.io
 exports.deleteTask = async function(taskData) {
-    const socketApi = require('../config/socket.config');
+    const socketApi = require('../config/socket.config'); // for emitting 'get tasks'
 
     try {
         const taskId = taskData.taskId || null;
@@ -95,35 +96,6 @@ exports.deleteTask = async function(taskData) {
 
     } catch (err) {
         console.log("Error deleting task: " + err);
-    }
-};
-
-
-// Get a task
-exports.getTask = async function(req, res, next) {
-    try {
-        const id = req.params.id;
-
-        const doc = await taskModel.findById(id);
-
-
-        res.status(200).json({
-            status: 'success',
-            data: {
-                doc
-            }
-        });
-
-    } catch (err) {
-        res.status(500).json({
-            status: 'failure',
-            message: err.message,
-            data: {
-                doc
-            }
-        })
-
-        next(err);
     }
 };
 
@@ -153,17 +125,18 @@ exports.getTasksRoute = async function(req, res) {
             });
 
         } else {
-            res.render('error', {});
+            res.render('500', { error: "Could not get tasks" });
         }
         
     } catch (err) {
         console.log("Error getting all tasks for list: " + err);
-        res.render('error', {});
+        res.render('500', { error: err });
     }
 };
 
 
 // Get all tasks for list using listId
+// Makes calls to get list data (showing list name) as well as getting tasks
 exports.getTasksSocket = async function(listId) {
     try {
         let listData = {

@@ -19,9 +19,6 @@ const userController = require('../controllers/user.controller');
     // Delete a task
     //router.delete('/remove/:id', taskController.deleteTask);
 
-    // Get a task
-    router.get('/one/:id', userController.isLoggedIn, taskController.getTask);
-
     // Get all tasks
     router.get('/:list_id', userController.isLoggedIn, taskController.getTasksRoute);
 

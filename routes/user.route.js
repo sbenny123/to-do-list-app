@@ -1,5 +1,5 @@
 /**
- * 
+ * User authentication routes - /register, /login and /logout
  */
 
 // Module dependencies
@@ -14,12 +14,14 @@ const userController = require('../controllers/user.controller'); // User contro
 router.get('/register', userController.showRegistration);
 router.post('/register', userController.register);
 
+
 // Get login page and login user
 router.get('/login', userController.showLogIn);
 router.post('/login', passport.authenticate('local', {
     successRedirect: '/lists',
     failureRedirect: '/login'
 }), userController.logIn);
+
 
 // Logout user
 router.get('/logout', userController.logOut);
