@@ -14,21 +14,21 @@
                 </a>
             </div>
 
+            <% if (currentUser) { %>
             <ul class="navbar-nav flex-row flex-wrap bd-navbar-nav pt-2 py-md-0">
                 <li class="nav-item">
                     <a class="nav-link nav-text" href="/lists">Lists</a>
                 </li>
             </ul> 
             
-            <% if (currentUser) { %>
-                <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
-                    <li class="nav-item nav-link active" style="color: white; padding-right: 15px;">                
-                        Logged in as <%= currentUser.fullName %>
-                    </li>
-                    <li class="nav-item nav-text">
-                        <a class="nav-link" href="/logout">Log out</a>
-                    </li> 
-                </ul>
+            <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
+                <li class="nav-item nav-link active" style="color: white; padding-right: 15px;">                
+                    Logged in as <%= currentUser.fullName %>
+                </li>                    
+                <li class="nav-item nav-text">
+                    <a class="nav-link" href="/logout">Log out</a>
+                </li> 
+            </ul>
             
             <% } else { %> 
                 <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
