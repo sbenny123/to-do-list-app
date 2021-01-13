@@ -56,7 +56,7 @@ var db = mongoose.connect(connectionString, {
     useUnifiedTopology: true
 })
 .then(() => { 
-    console.log('Connected to database successfully: ' + connectionString);
+    console.log('Connected to database successfully');
 })
 .catch((err) => { console.log('Failed to connect to database: ' + err); });
 
