@@ -1,7 +1,10 @@
 {
     "success": {
         "integration": {
-
+            "logIn": {
+                "username": "testy@email.com",
+                "password": "password123"
+            }
         },
         "model": {
             "user_id": "",

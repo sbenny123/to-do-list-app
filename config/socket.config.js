@@ -14,10 +14,8 @@ let socketApi = {
 
 
 io.on('connection', function(socket){
-    console.log("Connected to socket");
 
     socket.on("disconnect", function() {
-        console.log("Disconnected from socket")
     });
 
 

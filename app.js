@@ -7,16 +7,35 @@
 // Module dependencies
 const bodyParser = require('body-parser'); // to handle reading of form data
 const cors = require('cors');
+const dotenv = require('dotenv');
 const express = require('express');
 const flash = require('connect-flash');
 const session = require('express-session');
 const LocalStrategy = require('passport-local').Strategy;
+const mongoose = require('mongoose');
 const mongoSanitize = require('express-mongo-sanitize');
 const passport = require('passport');
 const path = require('path');
 
 // Config
 const authConfig = require('./config/auth.config');
+
+dotenv.config();
+let connectionString = "";
+
+// Sort MongoDb database to use
+switch (process.env.NODE_ENV) {
+    case 'test':
+        connectionString = process.env.MONGO_TEST_URI;
+        break;
+
+    case 'production':
+        connectionString = process.env.MONGO_PROD_URI;
+    
+    default: 
+        connectionString = process.env.MONGO_TEST_URI;
+        break;
+}
 
 // Models
 const userModel = require('./models/user.model');
@@ -29,6 +48,18 @@ const userRouter = require('./routes/user.route');
 
 // Other variables
 const app = express();
+
+var db = mongoose.connect(connectionString, {
+    useCreateIndex: true,
+    useFindAndModify: false,
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+})
+.then(() => { 
+    console.log('Connected to database successfully: ' + connectionString);
+})
+.catch((err) => { console.log('Failed to connect to database: ' + err); });
+
 
 app.use(cors());
 app.use(bodyParser.json()); // Parses requests of content-type - application/json

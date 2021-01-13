@@ -11,6 +11,7 @@ const mongoose = require('mongoose');
 
 const app = require('../../app');
 const data = require('../data/lists.json');
+const userData = require('../data/users.json');
 
 chai.use(chaiHttp);
 
@@ -18,14 +19,16 @@ chai.use(chaiHttp);
 describe('List integration tests', function() {
 
     // Test for getting all lists    
-    it("Should get all lists", function(done) {
+   /* it("Should get all lists", function(done) {
         chai.request(app)
             .get('/lists')
             .end((err, res) => {
                 should.not.exist(err);
                 res.status.should.equal(200);
-            })
+            });
 
           done()
-    })
+    })*/
+
+
 })

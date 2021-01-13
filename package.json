@@ -4,9 +4,9 @@
   "description": "To do list application using Node.js and mongoDB",
   "main": "app.js",
   "scripts": {
-    "start": "node server.js",
-    "devstart": "nodemon server.js",
-    "test": "mocha ./tests/**/*.js"
+    "start": "NODE_ENV=production node server.js",
+    "devstart": "NODE_ENV=development nodemon server.js",
+    "test": "NODE_ENV=test mocha ./tests/**/*.js"
   },
   "repository": {
     "type": "git",
@@ -33,6 +33,7 @@
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^6.0.1",
+    "passport-mock": "0.0.3",
     "socket.io": "^3.0.5"
   },
   "devDependencies": {

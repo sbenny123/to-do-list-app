@@ -16,5 +16,18 @@ chai.use(chaiHttp);
 
 
 describe('User authentication integration tests', function() {
+    let registeredUser = data.success.integration.logIn;
 
-})
+    it("Should log in", function(done) {
+        chai.request(app)
+            .post('/login')
+            .send(registeredUser)
+            .end((err, res) => {
+                console.log(res);
+                should.not.exist(err);
+            });
+
+          done()
+    });
+    
+});

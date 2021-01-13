@@ -1,12 +1,5 @@
 // Module dependencies
-const dotenv = require('dotenv');
 const http = require('http');
-const mongoose = require('mongoose');
-const path = require('path');
-
-dotenv.config();
-const connectionString = process.env.MONGO_PROD_URI || ""; // MongoDb Connection Uri 
-
 const app = require('./app');
 const socketApi = require('./config/socket.config'); // Socket configuration and events
 var server;
@@ -16,34 +9,25 @@ process.on('uncaughtException', err => {
     process.exit(1);
 });
 
-var db = mongoose.connect(connectionString, {
-    useCreateIndex: true,
-    useFindAndModify: false,
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-})
-.then(() => { 
-    console.log('Connected to database successfully');
 
-    // Set port the server should listen to
-    const port = normalisePort(process.env.PORT || 3000);
-    app.set('port', port);
 
-    // Create HTTP server instance
-    server = http.createServer(app);
+// Set port the server should listen to
+const port = normalisePort(process.env.PORT || 3000 || 8000);
+app.set('port', port);
 
-    // Give socket access to server to listen for events
-    const io = socketApi.io;
-    io.attach(server);
+// Create HTTP server instance
+server = http.createServer(app);
 
-    // Make server listen to the specified port
-    server.listen(port);
+// Give socket access to server to listen for events
+const io = socketApi.io;
+io.attach(server);
 
-    // Handle errors and success
-    server.on('error', onError);
-    server.on('listening', onListening);
-})
-.catch((err) => { console.log('Failed to connect to database: ' + err); });
+// Make server listen to the specified port
+server.listen(port);
+
+// Handle errors and success
+server.on('error', onError);
+server.on('listening', onListening);
 
 
 /**

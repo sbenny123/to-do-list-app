@@ -38,12 +38,10 @@ exports.register = async function(req, res) {
     const result = await userModel.register(data, req.body.password, function(err, user) {
         if (err) {
             console.log('Error registering user: ' + err.message);
-
             return res.render('register', { error: err.name });
         }
 
         passport.authenticate('local')(req, res, function () {
-            console.log("User has been registered");
             res.redirect('/lists');
         });
     });
