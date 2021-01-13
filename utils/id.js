@@ -8,8 +8,10 @@
     const charLength = characters.length;
 
 
-    for (let i = 0; i < idLength; i++) {
-        id += characters.charAt(Math.floor(Math.random() * charLength));
+    if (typeof idLength == "number") {
+        for (let i = 0; i < idLength; i++) {
+            id += characters.charAt(Math.floor(Math.random() * charLength));
+        }
     }
 
     return id;

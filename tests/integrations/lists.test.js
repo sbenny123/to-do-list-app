@@ -19,7 +19,7 @@ chai.use(chaiHttp);
 describe('List integration tests', function() {
 
     // Test for getting all lists    
-   /* it("Should get all lists", function(done) {
+    it("Should get all lists", function(done) {
         chai.request(app)
             .get('/lists')
             .end((err, res) => {
@@ -28,7 +28,5 @@ describe('List integration tests', function() {
             });
 
           done()
-    })*/
-
-
-})
+    });
+});

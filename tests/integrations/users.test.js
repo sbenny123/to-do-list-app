@@ -23,7 +23,7 @@ describe('User authentication integration tests', function() {
             .post('/login')
             .send(registeredUser)
             .end((err, res) => {
-                console.log(res);
+                res.redirects.should.be.length(2);
                 should.not.exist(err);
             });
 

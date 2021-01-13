@@ -34,7 +34,8 @@
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^6.0.1",
     "passport-mock": "0.0.3",
-    "socket.io": "^3.0.5"
+    "socket.io": "^3.0.5",
+    "win-node-env": "^0.4.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",
