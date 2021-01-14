@@ -9,7 +9,6 @@ const bodyParser = require('body-parser'); // to handle reading of form data
 const cors = require('cors');
 const dotenv = require('dotenv');
 const express = require('express');
-const flash = require('connect-flash');
 const session = require('express-session');
 const LocalStrategy = require('passport-local').Strategy;
 const mongoose = require('mongoose');
@@ -72,7 +71,6 @@ app.use(session({
     resave: false,
     saveUninitialized: false
 }));
-app.use(flash());
 
 
 // Setup view engine

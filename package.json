@@ -4,9 +4,9 @@
   "description": "To do list application using Node.js and mongoDB",
   "main": "app.js",
   "scripts": {
-    "start": "NODE_ENV=production node server.js",
-    "devstart": "NODE_ENV=development nodemon server.js",
-    "test": "cross-env NODE_ENV=test mocha ./tests/**/*.js"
+    "start": "node server.js",
+    "devstart": "nodemon server.js",
+    "test": "mocha ./tests/**/*.js"
   },
   "repository": {
     "type": "git",
@@ -19,22 +19,17 @@
   },
   "homepage": "https://github.com/sbenny123/to-do-list-app#readme",
   "dependencies": {
-    "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
-    "connect-flash": "^0.1.1",
     "cors": "^2.8.5",
-    "cross-env": "^7.0.3",
     "dotenv": "^8.2.0",
     "ejs": "^3.1.5",
     "express": "^4.17.1",
     "express-mongo-sanitize": "^2.0.1",
     "express-session": "^1.17.1",
-    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.11.9",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^6.0.1",
-    "passport-mock": "0.0.3",
     "socket.io": "^3.0.5"
   },
   "devDependencies": {
